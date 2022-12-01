@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../assets/css/common.css?v=3" rel="stylesheet" />
+  <link href="../assets/css/activity.css?v=3" rel="stylesheet" />
+  <script src="../assets/js/app.js?v=5"></script>
+  <script src="../assets/js/iptvKeyMap.js?v=5"></script>
+  <script src="../assets/js/player.js?v=5"></script>
+
+<style>
+.home-bg{
+  background-image: url('assets/imgs/home-bgimg.png');
+}
+.active{
+  border: 0;
+  box-shadow: unset;
+}
+</style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="home-bg">
+<!--音量-->
+<img src="assets/resources/imgs/vmute.png" class="fre complayer sound-bar" id="mute-bar" style="left:1100px;top:100px;display: none;" />
+<img src="assets/resources/imgs/v0.png" class="fre complayer sound-bar" id="volume-bar" style="left:1100px;top: 360px;display: none;" />
+
+<div class="video v-active" id="video" data="rtsp://10.192.78.200/88888888/16/20220908/268958780/268958780.mpg" style="display: none;"></div>
+
+</body>
+<script>
+  var url = 0;
+  window.onload = function () {
+    try{
+      url = parseInt(location.search.substring(location.search.indexOf("=")+1));
+    }catch(e){
+      url = 0;
+    }
+    if(isNaN(url)){
+      relocation("../index.html");
+    }
+    setUrl(url);
+
+    WindowPlayer.initParamFull();
+    WindowPlayer.setSingleUrl(document.getElementById('video').getAttribute('data'));
+    WindowPlayer.playFromStart();
+  };
+
+  function action(){
+    if(this.currentKeyCode == 0){
+      WindowPlayer.destory();
+      relocation("index.html");
+    }
+  }
+
+  function setUrl(url){
+    if(url == 1) {
+      document.getElementById('video').setAttribute('data','rtsp://10.192.78.200/88888888/16/20220908/268958780/268958780.mpg');
+    }
+  }
+
+</script>
+</html>

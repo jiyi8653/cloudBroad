@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../assets/css/common.css?v=1" rel="stylesheet" />
+  <link href="../assets/css/activity.css?v=1" rel="stylesheet" />
+  <script src="../assets/js/utils.js?v=1"></script>
+  <script src="../assets/js/iptvKeyMap.js?v=1"></script>
+  <script src="../assets/js/player.js"></script>
+  <script src="../assets/js/jquery-1.js" type="text/javascript" charset="utf-8"></script>
+
+  <style>
+    .news-bg {
+      background-image: url('../assets/imgs/commonbgimg.jpg');
+    }
+    .active{
+      border: 0;
+      box-shadow: unset;
+    }
+  </style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="news-bg">
+	<img src="../assets/imgs/选择.png" id="xuanze" class="fre" style="width:298px;height:104px;top: 398px;left: 21px;"/>
+	<div style="width: 480px;height: auto;margin-top: 33px;">
+	  <img src="../assets/imgs/yunkuandai.png" class="fre" id="fre0" style="width:290px;height:95px;left:25px;top:22px;"/>
+	  <img src="../assets/imgs/yunzixun.png" class="fre activity" id="fre1" style="width:290px;height:95px;left: 25px;top:135px;"/>
+	  <img src="../assets/imgs/yunchanpin.png" class="fre" id="fre2" style="width:290px;height:95px;left: 25px;top:250px;"/>
+	  <img src="../assets/imgs/huodongzhuanqu-selected.png" class="fre" id="fre3" style="width:290px;height:95px;left: 25px;top:370px;"/>
+	  <img src="../assets/imgs/huiyuanzhuanqu.png" class="fre" id="fre4" style="width:290px;height:95px;left: 25px;top:490px;"/>
+	</div>
+	<div id="rightcontent" style="position: relative;">
+		<img id="fre5" src="../assets/imgs/active1.jpg" class="fre" style="width: 880px;height: 660px;left: 355px;top: 30px;display: none;"/>
+	</div>
+	<img id="back" src="../assets/imgs/huodongback-selected.png" class="fre" style="top:30px;left: 1100px;" >
+
+	<!--音量-->
+	<img src="../assets/resources/imgs/vmute.png" class="fre complayer sound-bar" id="mute-bar" style="left:20px;top:140px;display: none;z-index:1000;" />
+	<img src="../assets/resources/imgs/v0.png" class="fre complayer sound-bar" id="volume-bar" style="left:20px;top:400px;display: none;z-index:1000;" />
+
+
+</body>
+<script>
+  var selectedIndex = 0;
+  var historyPath="";
+  var active =1;
+window.onload = function(){
+  iptvKeyMap.index_Keycode = 3;
+  historyPath = getQueryVariable("historyPath");
+  active = getQueryVariable("active");
+  if(active==1){
+	document.getElementById('fre5').src = "../assets/imgs/active1.jpg";
+  }else if(active==2){
+	document.getElementById('fre5').src = "../assets/imgs/active2.jpg";
+  }else if(active==3){
+	document.getElementById('fre5').src = "../assets/imgs/active3.jpg";
+  }else if(active==4){
+	document.getElementById('fre5').src = "../assets/imgs/active4.jpg";
+  }
+  document.getElementById('fre5').style.display="block";
+  document.getElementById('xuanze').style.display="none";
+};
+
+  function action(){
+      if(currentKeyCode == 1){
+		  document.getElementById('xuanze').style.display="block";
+		  setActive(-1, 4);
+		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+      }else if(currentKeyCode == 2){
+		  setActive(1, 4);
+		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+      }else if(currentKeyCode == 3){
+		  document.getElementById("back").className = "fre";
+		  document.getElementById("back").src = "../assets/imgs/huodongback.png";
+		  iptvKeyMap.index_Keycode = 3;
+		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+      }else if(currentKeyCode == 4){
+		  document.getElementById('xuanze').style.display="none";
+		  document.getElementById("back").className = "fre active";
+		  document.getElementById("back").src = "../assets/imgs/huodongback-selected.png";
+      }else if(currentKeyCode == 5){
+		if(iptvKeyMap.index_Keycode == 0){
+		  relocation('index.html');
+		}else if(iptvKeyMap.index_Keycode == 1){
+		  relocation('news.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 2){
+		  relocation('productlist.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 3){
+		  relocation('activity.html?historyPath='+historyPath+'&selectedIndex='+active);
+		}else if(iptvKeyMap.index_Keycode == 4){
+		  relocation('member.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 5){
+		  relocation('membernomal.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 6){
+		  relocation('membervip.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 7){
+		  relocation('memberfamily.html?historyPath='+historyPath);
+		}
+      }
+      
+    if(this.currentKeyCode == 0){
+    	relocation('activity.html?selectedIndex='+active);	
+    }
+  }
+  
+  function updateLeftMenuStyle(homeIndex){
+	  var base = 32;
+	  var tops = [(base+19),(base+132),(base+247),(base+367),(base+487)];
+      try {
+		document.getElementById('xuanze').style.display="block";
+        document.getElementById('xuanze').style.top=tops[homeIndex]+"px";
+      } catch (error) {
+          
+      }
+  }
+  function updateRightContentStyle(homeIndex){
+	  for(var i=5;i<8;i++){
+		document.getElementById('fre'+i).className="fre";  
+	  }
+	  document.getElementById('fre'+homeIndex).className="fre v-active";
+  }
+</script>
+
+</html>
+

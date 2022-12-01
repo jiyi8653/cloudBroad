@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../../assets/css/common.css?v=1" rel="stylesheet" />
+  <link href="../../assets/css/activity.css?v=1" rel="stylesheet" />
+  <script src="../../assets/js/iptvKeyMap.js?v=1"></script>
+  <script src="../../assets/js/player.js"></script>
+
+  <style>
+    .video-bg {
+      background-image: url('../../assets/imgs/productbgimg.png');
+    }
+    .fre{
+      border: solid 1px #eee;
+    }
+  </style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="video-bg">
+
+
+  <img src="../../assets/imgs/product/安全上网-选中.png" class="fre" id="fre0" style="width:235px;height:65px;top:123px;left:33px" />
+  <img src="../../assets/imgs/youxijiasu/产品介绍.png" class="fre" id="fre1" style="width:150px;height:65px;top:258px;left:33px" />
+  <img src="../../assets/imgs/youxijiasu/订购.png" class="fre" id="fre2" style="width:115px;height:65px;top:395px;left:33px" />
+  <img src="../../assets/imgs/youxijiasu/使用说明.png" class="fre" id="fre3" style="width:151px;height:65px;top:531px;left:33px" />
+
+
+  <div class="fre" id="fre4" style="width:908px;height:640px;top:80px;left:286px;overflow: scroll;">
+
+  </div>
+  <div class="video" id="video" data="rtsp://10.192.78.200/88888888/16/20220908/268958784/268958784.mpg"></div>
+
+</body>
+<script>
+  var selectedIndex = 0;
+  var fre0img = "../../assets/imgs/product/安全上网.png";
+  var fre1img = "../../assets/imgs/youxijiasu/产品介绍.png";
+  var fre2img = "../../assets/imgs/youxijiasu/订购.png";
+  var fre3img = "../../assets/imgs/youxijiasu/使用说明.png";
+
+  var fre0imgselected = "../../assets/imgs/product/安全上网-选中.png";
+  var fre1imgselected = "../../assets/imgs/product/产品介绍-选中.png";
+  var fre2imgselected = "../../assets/imgs/product/订购-选中.png";
+  var fre3imgselected = "../../assets/imgs/product/使用说明-选中.png";
+
+  window.onload = function () {
+    iptvKeyMap.index_Keycode = 0;
+    document.getElementById('fre0').className = "fre active";
+    playProductVideo(document.getElementById('video').getAttribute('data'));
+  };
+
+  function action(){
+    if(iptvKeyMap.index_Keycode == 4){
+      if(currentKeyCode == 3){
+        iptvKeyMap.index_Keycode = selectedIndex;
+        document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+      }else if(currentKeyCode == 4){
+        iptvKeyMap.index_Keycode = 4;
+        document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+      }
+      // else if(currentKeyCode == 1){
+      //   document.getElementById('fre4').scrollTop-=500;
+      // }else if(currentKeyCode == 2){
+      //   document.getElementById('fre4').scrollTop+=500;
+      // }
+
+    }else{
+      if(currentKeyCode == 1){
+        iptvKeyMap.index_Keycode -= 1;
+        if(iptvKeyMap.index_Keycode < 0) iptvKeyMap.index_Keycode = 0;
+        document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+      }else if(currentKeyCode == 2){
+        iptvKeyMap.index_Keycode += 1;
+        if(iptvKeyMap.index_Keycode > 4) iptvKeyMap.index_Keycode = 4;
+        document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+      }else if(currentKeyCode == 3){
+        iptvKeyMap.index_Keycode = selectedIndex;
+        document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+      }else if(currentKeyCode == 4){
+        if(iptvKeyMap.index_Keycode < 4){
+          iptvKeyMap.index_Keycode = 4;
+          document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+        }
+      }
+      if(iptvKeyMap.index_Keycode == 0){
+        playProductVideo(document.getElementById('video').getAttribute('data'));
+        selectedIndex = 0;
+        updateMenu(0);
+      }else if(iptvKeyMap.index_Keycode == 1){
+        WindowPlayer.destory();
+        document.getElementById('fre4').innerText = "产品介绍";
+        selectedIndex = 1;
+        updateMenu(1);
+      }else if(iptvKeyMap.index_Keycode == 2){
+        WindowPlayer.destory();
+        document.getElementById('fre4').innerText = "订购";
+        selectedIndex = 2;
+        updateMenu(2);
+      }else if(iptvKeyMap.index_Keycode == 3){
+        playProductVideo(document.getElementById('video').getAttribute('data'));
+        selectedIndex = 3;
+        updateMenu(3);
+      }
+    }
+    if(currentKeyCode == 0){
+      //relocation('../productlist.html');
+      relocation('../../index.html');
+    }
+  }
+
+  function playProductVideo(url){
+    WindowPlayer.initParam(332, 104, 860, 510);
+    WindowPlayer.setSingleUrl(url);
+    WindowPlayer.playFromStart();
+  }
+
+  function updateMenu(index){
+    switch(index){
+      case 0:
+      document.getElementById('fre0').src=fre0imgselected;
+      document.getElementById('fre0').style.width="235px";
+      document.getElementById('fre1').src=fre1img;
+      document.getElementById('fre1').style.width="150px";
+      document.getElementById('fre2').src=fre2img;
+      document.getElementById('fre2').style.width="115px";
+      document.getElementById('fre3').src=fre3img;
+      document.getElementById('fre3').style.width="151px";
+      break;
+      case 1:
+      document.getElementById('fre0').src=fre0img;
+      document.getElementById('fre0').style.width="150px";
+      document.getElementById('fre1').src=fre1imgselected;
+      document.getElementById('fre1').style.width="235px";
+      document.getElementById('fre2').src=fre2img;
+      document.getElementById('fre2').style.width="115px";
+      document.getElementById('fre3').src=fre3img;
+      document.getElementById('fre3').style.width="151px";
+      break;
+      case 2:
+      document.getElementById('fre0').src=fre0img;
+      document.getElementById('fre0').style.width="150px";
+      document.getElementById('fre1').src=fre1img;
+      document.getElementById('fre1').style.width="150px";
+      document.getElementById('fre2').src=fre2imgselected;
+      document.getElementById('fre2').style.width="235px";
+      document.getElementById('fre3').src=fre3img;
+      document.getElementById('fre3').style.width="151px";
+      break;
+      case 3:
+      document.getElementById('fre0').src=fre0img;
+      document.getElementById('fre0').style.width="150px";
+      document.getElementById('fre1').src=fre1img;
+      document.getElementById('fre1').style.width="150px";
+      document.getElementById('fre2').src=fre2img;
+      document.getElementById('fre2').style.width="115px";
+      document.getElementById('fre3').src=fre3imgselected;
+      document.getElementById('fre3').style.width="235px";
+      break;
+    }
+
+  }
+</script>
+
+</html>

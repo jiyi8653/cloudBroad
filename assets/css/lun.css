@@ -1,0 +1,117 @@
+.box{
+		width: 770px;
+		height: 337.5px;
+		margin: 0 auto;
+		top: 200px;
+		left: 450px;
+	}
+
+	.box ul{
+		width: 770px;
+		height: 337.5px;
+		overflow: hidden;
+	}
+
+	.box ul li{
+		position: absolute;
+		width: 600px;
+		/* top: 50%; */
+		/* transform: translate(0%,-50%); */
+		top:0;
+		/*过渡移动的动画*/
+		transition: all 0.5s linear;
+	}
+
+	.box ul li a{
+		background-color: rgba(0,0,0,0.5);
+	}
+
+	/*第一张图片的位置*/
+	.box ul .show0{
+		left: 0px;
+		width: 500px;
+		z-index: 77;
+		opacity: 0;
+	}
+
+	/*第二张图片的位置*/
+	.box ul .show1{
+		left: 0px;
+		width: 500px;
+		z-index: 88;
+		opacity: 0.7;
+	}
+
+	/*第三张图片的位置*/
+	.box ul .show2{
+		/* left: 385px; */
+		/* transform: translate(-50%,-50%); */
+		left: 100px;
+		z-index: 99;
+		opacity: 1;
+		top:-12px;
+	}
+
+	/*第四张图片的位置*/
+	.box ul .show3{
+		/* left: 700px; */
+		left: 200px;
+		width: 500px;
+		/* transform: translate(-100%,-50%); */
+		z-index: 88;
+		opacity: 0.7;
+		top:0;
+	}
+
+	/*第五张图片的位置*/
+	.box ul .show4,.box ul .show5,.box ul .show6,.box ul .show7{
+		/* left: 730px; */
+		left: 100px;
+		width: 500px;
+		/* transform: translate(-100%,-50%); */
+		z-index: 77;
+		opacity: 0;
+		top:0;
+	}
+
+	.butBox{
+		width: 730px;
+		position: absolute;
+		top: 26px;
+		z-index: 90;
+	}
+
+	.butL{
+		float: left;
+		width: 85px;
+		height: 282px;
+		position: relative;
+		left: -80px;
+	}
+
+	.butL img{
+		height: 36px;
+		width: 22px;
+		line-height: 282px;
+		margin-top: 110px;
+		margin-left: 14.5px;
+		cursor: pointer;
+		padding: 10px;
+	}
+
+	.butR{
+		float: right;
+		width: 85px;
+		height: 282px;
+		position: relative;
+		right: -80px;
+	}
+
+	.butR img{
+		height: 36px;
+		width: 22px;
+		margin-top: 110px;
+		margin-left: 14.5px;
+		cursor: pointer;
+		padding: 10px;
+	}

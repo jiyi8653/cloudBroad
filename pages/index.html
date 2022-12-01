@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../assets/css/common.css?v=3" rel="stylesheet" />
+  <link href="../assets/css/activity.css?v=3" rel="stylesheet" />
+  <script src="../assets/js/utils.js?v=1"></script>
+  <script src="../assets/js/app.js?v=1"></script>
+  <script src="../assets/js/iptvKeyMap.js?v=4"></script>
+  <script src="../assets/js/player.js?v=3"></script>
+
+<style>
+.home-bg{
+  background-image: url('../assets/imgs/home-bgimg2.png');
+  background-size: cover;
+}
+.active{
+  border: 0;
+  box-shadow: unset;
+}
+.hactive{
+	border:1px solid #011B34;
+}
+</style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="home-bg">
+
+<img src="../assets/imgs/选择.png" id="xuanze" class="fre" style="width:298px;height:104px;top: 51px;left: 21px;"/>
+<div style="width: 480px;height: auto;margin-top: 33px;">
+  <img src="../assets/imgs/yunkuandai-selected.png" class="fre" id="fre0" style="width:290px;height:95px;left:25px;top:22px;"/>
+  <img src="../assets/imgs/yunzixun.png" class="fre activity" id="fre1" style="width:290px;height:95px;left: 25px;top:135px;"/>
+  <img src="../assets/imgs/yunchanpin.png" class="fre" id="fre2" style="width:290px;height:95px;left: 25px;top:250px;"/>
+  <img src="../assets/imgs/huodongzhuanqu.png" class="fre" id="fre3" style="width:290px;height:95px;left: 25px;top:370px;"/>
+  <img src="../assets/imgs/huiyuanzhuanqu.png" class="fre" id="fre4" style="width:290px;height:95px;left: 25px;top:490px;"/>
+</div>
+<div id="rightcontent" style="position: relative;">
+	<!-- 临时图片显示视频位置 -->
+	<img src="../assets/imgs/zhibo.jpg" id="fre5" class="fre" style="width: 543px;height: 350px;left: 385px;top:60px;">
+    <div class="video" style="width: 543px;height: 350px;left: 385px;top:60px;display: none;"></div>
+ 	<img id="fre6" src="../assets/imgs/tianyi.jpg" class="fre" style="width: 260px;height: 350px;left: 950px;top:60px;">
+	<img id="fre7" src="../assets/imgs/youxi.jpg" class="fre" style="width: 260px;height: 230px;left: 385px;top:435px;">
+	<img id="fre8" src="../assets/imgs/zhijia.jpg" class="fre" style="width: 260px;height: 230px;left: 670px;top:435px;">
+	<img id="fre9" src="../assets/imgs/zhibo.jpg" class="fre" style="width: 260px;height: 230px;left: 950px;top:435px;">
+</div>
+
+    
+
+<!--音量-->
+<img src="../assets/resources/imgs/vmute.png" class="fre complayer sound-bar" id="mute-bar" style="left:20px;top:140px;display: none;z-index:1000;" />
+<img src="../assets/resources/imgs/v0.png" class="fre complayer sound-bar" id="volume-bar" style="left:20px;top:400px;display: none;z-index:1000;" />
+
+
+<!--测试-->
+<div id="mytest-bar" style="width: 100px;height:100px;border:1px solid red;position: absolute;top: 10px;left: 10px;display: none;">
+
+</div>
+</body>
+<script>
+  var selectedM = 0;
+  window.onload = function () {
+    iptvKeyMap.index_Keycode = 0;
+    iptvKeyMap.index_list = 0;
+    setActive(0,9);
+	//left, top, width, height
+    WindowPlayer.initParam(385,60, 543, 350);
+	//获得视频链接
+	WindowPlayer.setSingleUrl(document.getElementById('fre5').getAttribute('data'));
+	selectedM = getQueryVariable("selectIndex");
+	if(selectedM>0){
+		var currentM = selectedM-1;
+		iptvKeyMap.index_Keycode = currentM
+		if(currentM<=4){
+			updateLeftMenuStyle(currentM);
+		}else{
+		    updateRightContentStyle(currentM);	
+		}
+	}
+	//TODO
+	
+    WindowPlayer.playFromStart();
+    getDefaultPlatform();
+
+    
+    // document.getElementById('mytest-bar').innerHTML = MyCookie.get('_platform');
+  };
+
+  function action(){
+    if(this.currentKeyCode == 1){
+	  if(iptvKeyMap.index_Keycode==5){
+		return;  
+	  }	  
+	  //选中视频	
+      if(iptvKeyMap.index_Keycode==6){
+      	setActive(-6, 9); 
+        updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+      }else if(iptvKeyMap.index_Keycode==7){
+      	setActive(-2, 9); 
+	    updateRightContentStyle(iptvKeyMap.index_Keycode);
+      }else if(iptvKeyMap.index_Keycode==8){
+      	setActive(-3, 9); 
+	    updateRightContentStyle(iptvKeyMap.index_Keycode);
+      }else if(iptvKeyMap.index_Keycode==9){
+      	setActive(-3, 9); 
+	    updateRightContentStyle(iptvKeyMap.index_Keycode);
+      }else{  //左边菜单选中
+		  document.getElementById('xuanze').style.display="block";
+		  // document.getElementById('fre5').style.display="none";
+		  // if(document.getElementById('fre5').style.display=="none"){
+			setActive(-1, 4);
+			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+		  // }		  
+	  }
+    }else if(this.currentKeyCode == 2){
+		if(iptvKeyMap.index_Keycode>=7){
+		   return;
+		}	
+		if(iptvKeyMap.index_Keycode==5){
+			setActive(2, 9); 
+		    updateRightContentStyle(iptvKeyMap.index_Keycode);
+		}else if(iptvKeyMap.index_Keycode==6){
+			setActive(3, 9); 
+		    updateRightContentStyle(iptvKeyMap.index_Keycode);
+		}else {
+		  if(iptvKeyMap.index_Keycode==5){
+		    setActive(-4, 4);	  
+		  }else{
+            setActive(1, 4);
+		  }
+          updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+        }
+    }else if(this.currentKeyCode == 3){
+	  if(iptvKeyMap.index_Keycode==0){return; }	
+	  //回到左边菜单 首页	选中
+	  if(iptvKeyMap.index_Keycode==5){
+		  setActive(-5, 4);
+		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+	  }else if(iptvKeyMap.index_Keycode==7){
+		  setActive(-7, 4);
+		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+	  }else{ 
+		  //右边内容 6~9之间
+		  if(iptvKeyMap.index_Keycode>5 && iptvKeyMap.index_Keycode<=9){
+		  	setActive(-1,9)
+		  }else{ //光标左边菜单之间跳转到右边
+			setActive(5, 9);
+		  }
+		  updateRightContentStyle(iptvKeyMap.index_Keycode);
+	  }
+    }else if(this.currentKeyCode == 4){
+	  //5~9 右边内容	
+	  if(iptvKeyMap.index_Keycode>=5){
+		setActive(1,9);	  
+	  }//左边菜单为1，跳转到右边视频选中；菜单为3，跳转到游戏加速
+	  else if(iptvKeyMap.index_Keycode==1 || iptvKeyMap.index_Keycode==3){
+		setActive(4, 9);  
+	  }//左边菜单为2，跳转到右边视频选中；菜单为4，跳转到游戏加速
+	  else if(iptvKeyMap.index_Keycode==2 || iptvKeyMap.index_Keycode==4){
+		setActive(3, 9);  
+	  } else{
+	    setActive(5, 9);
+	  }
+	  updateRightContentStyle(iptvKeyMap.index_Keycode);
+    }else if(this.currentKeyCode == 5){
+      if(document.getElementById('fre5').style.display=="block"){
+        relocation('player.html?url=1');
+      }else{
+		var historyPath="index.html";  
+		  
+        if(iptvKeyMap.index_Keycode == 0){
+          relocation('index.html');
+        }else if(iptvKeyMap.index_Keycode == 1){
+          relocation('news.html?historyPath='+historyPath);
+        }else if(iptvKeyMap.index_Keycode == 2){
+          relocation('productlist.html');
+        }else if(iptvKeyMap.index_Keycode == 3){
+          relocation('activity.html?historyPath='+historyPath);
+        }else if(iptvKeyMap.index_Keycode == 4){
+          relocation('member.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 5){
+          //TODO  跳转到视频页
+		  
+		}else if(iptvKeyMap.index_Keycode == 6){
+          relocation('product6.html?page=6&historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 7){
+          relocation('product7.html?page=7&historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 8){
+          relocation('product5.html?page=5&historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 9){
+          relocation('product2.html?page=2&historyPath='+historyPath);
+		}
+		
+      }
+    }else if(this.currentKeyCode == 0){
+      WindowPlayer.destory();
+      exitApp();
+    }
+  }
+  
+  
+  function updateLeftMenuStyle(homeIndex){
+	  var base = 32;
+	  var tops = [(base+19),(base+132),(base+247),(base+367),(base+487)];
+      try {
+		document.getElementById('xuanze').style.display="block";
+        document.getElementById('xuanze').style.top=tops[homeIndex]+"px";
+      } catch (error) {
+          
+      }
+  }
+  
+  function updateRightContentStyle(homeIndex){
+      try {
+		  for(var i=6;i<=9;i++){
+			document.getElementById('fre'+i).className="fre";  
+		  }
+		  document.getElementById('xuanze').style.display="none";
+		  if(homeIndex==5){
+		  	document.getElementById('fre5').className="fre video v-active";
+		  }else{
+            document.getElementById('fre'+homeIndex).className="fre v-active";
+		  }
+      } catch (error) {
+          
+      }
+  }
+
+</script>
+</html>

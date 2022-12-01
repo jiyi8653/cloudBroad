@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../assets/css/common.css?v=1" rel="stylesheet" />
+  <link href="../assets/css/activity.css?v=1" rel="stylesheet" />
+  <script src="../assets/js/utils.js?v=1"></script>
+  <script src="../assets/js/iptvKeyMap.js?v=1"></script>
+  <script src="../assets/js/player.js"></script>
+  <script src="../assets/js/jquery-1.js" type="text/javascript" charset="utf-8"></script>
+
+  <style>
+    .video-bg {
+      background-image: url('../assets/imgs/commonbgimg.jpg');
+    }
+	.line{
+		width: 10px;
+		height: 500px;
+		background-color: #555;
+		top: 130px;
+		left: 1170px;
+		z-index: 1;
+		border-radius: 10px;
+	}
+  </style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="video-bg">
+	<img src="../assets/imgs/选择.png" id="xuanze" class="fre" style="width:298px;height:104px;top: 519px;left: 21px;"/>
+	<div style="width: 480px;height: auto;margin-top: 33px;">
+	  <img src="../assets/imgs/yunkuandai.png" class="fre" id="fre0" style="width:290px;height:95px;left:25px;top:22px;"/>
+	  <img src="../assets/imgs/yunzixun.png" class="fre activity" id="fre1" style="width:290px;height:95px;left: 25px;top:135px;"/>
+	  <img src="../assets/imgs/yunchanpin.png" class="fre" id="fre2" style="width:290px;height:95px;left: 25px;top:250px;"/>
+	  <img src="../assets/imgs/huodongzhuanqu.png" class="fre" id="fre3" style="width:290px;height:95px;left: 25px;top:370px;"/>
+	  <img src="../assets/imgs/huiyuanzhuanqu-selected.png" class="fre" id="fre4" style="width:290px;height:95px;left: 25px;top:490px;"/>
+	</div>
+	<!-- 左边的菜单 -->
+	<div id="leftcontent" style="position: relative;">
+	</div>
+	<div id="rightcontent" style="position: relative;">
+		<img src="../assets/imgs/memf-top.jpg" class="fre" style="width: 880px;height: 147px;left:355px;top:25px;z-index: 1;"/>
+		<img src="../assets/imgs/memf-left.jpg" class="fre" style="width: 64px;height: 610px;left:355px;top: 25px;z-index: 1;"/>
+		<img src="../assets/imgs/memf-right.jpg" class="fre" style="width: 64px;height: 610px;left:1169px;top: 25px;z-index: 1;"/>
+		<img src="../assets/imgs/memf-bottom.jpg" class="fre" style="width: 880px;height: 60px;left:355px;top: 635px;z-index: 1;"/>
+		<img src="../assets/imgs/memf-middle.jpg" class="fre" style="width: 880px;height: 610px;left:355px;top: 55px;z-index: 0;"/>
+		<div style="position: relative;height: 660px;width: 880px;overflow: hidden;left:355px;top:30px;">
+		   <!-- <img src="../assets/imgs/memnormal.jpg" id="img1" class="fre"/> -->
+		   <img src="../assets/imgs/memfamily-rule.png" id="img2" class="fre" style="top:133px;left:74px;"/>
+		</div>
+		<!-- 下一页按钮 -->
+        <img class="fre line" id="line" src="../assets/imgs/line2.png"/>
+		<img class="fre" id="propre" src="../assets/imgs/scroll.png" style="z-index: 1; top:165px;left: 1153px;display: none;">
+		<img class="fre" id="pronext" src="../assets/imgs/vipscroll.png" style="z-index: 1;top:165px;left: 1157px;">
+		<!-- <img src="../assets/imgs/product/下一页.png" class="fre" id="pronext" style="width:129px;height:68px;top:610px;left:950px;z-index:1000;" />
+		<img src="../assets/imgs/product/上一页.png" class="fre" id="propre" style="width:129px;height:68px;top:610px;left:850px;z-index:1000" /> -->
+		<!-- 返回 -->
+		<!-- <img src="../assets/imgs/memback.png" class="fre" id="pback" style="width:336px;height:101px;top:590px;left:360px;z-index:1000" /> -->
+		<!-- 查看活动按钮 -->
+		<!-- <img src="../assets/imgs/memhuodong.png" class="fre" id="protuwen" style="width:273px;height:100px;top:544px;left:925px;z-index:1000" /> -->
+	</div>
+
+	
+
+	<!--音量-->
+	<img src="../assets/resources/imgs/vmute.png" class="fre complayer sound-bar" id="mute-bar" style="left:20px;top:140px;display: none;z-index:1000;" />
+	<img src="../assets/resources/imgs/v0.png" class="fre complayer sound-bar" id="volume-bar" style="left:20px;top:400px;display: none;z-index:1000;" />
+
+</body>
+<script>
+  var historyPath="";
+  var menuFlag = [false,false,false,false,true];
+  
+  var currentStep = 1;
+  var stepcount = 1;
+  var steps = [3, 3];
+  
+  var productResult={
+	  "id": null,
+	  "cateId": 0,
+	  "name": "../assets/imgs/memfamily-rule.png",
+	  "typeId": 1,
+	  "desc": "../assets/imgs/product/p11-selected.png",
+	  "pageNum": 1,
+	  "image": ["../assets/imgs/memfamily-rule.png"],
+	  "videoUrl": "https://www.w3school.com.cn/i/movie.ogg"
+  }
+  
+  var selectIndex = 0;
+window.onload = function(){
+  iptvKeyMap.index_Keycode = 4;
+  historyPath = getQueryVariable("historyPath");
+  selectIndex = getQueryVariable("selectIndex");
+
+  document.getElementById('xuanze').style.display="none";
+  document.getElementById('pronext').style.display="block";
+  document.getElementById('pronext').className="fre active";
+  document.getElementById('propre').style.display="none";
+  document.getElementById('propre').className="fre";
+  
+  //获得菜单和对应的菜单内容
+  getInitData();
+};
+//初始化数据
+function getInitData(){
+	// var url = "product";
+	// var param = {
+	//   "id":currentpage,
+	// }
+	
+	// httpTools.httpPost(url,param,function(res){
+	// 	if(res.code ==200){
+	// 	   productResult = res.data;
+	// 	   handleProResult(productResult);
+	// 	}
+	// },function(){
+	// });
+	
+	handleProResult(productResult);
+}
+//处理数据
+function handleProResult(result){
+	//步数重置
+	steps = [];
+	var images = result.image;
+	steps.push(images.length);
+	document.getElementById('img2').src= result.name;
+	setRimg();
+}
+
+
+  function action(){
+      if(currentKeyCode == 1){
+		 if(isNext()){
+			 currentStep = currentStep - 1;
+			 if(currentStep < 1) currentStep = 1;
+			 document.getElementById('propre').style.display="none";
+			 document.getElementById('propre').className="fre";   
+			 document.getElementById('pronext').style.display="block";
+			 document.getElementById('pronext').className="fre active";   
+			 moveScroll(1)
+		 }else{
+			document.getElementById('xuanze').style.display="block";
+			 setActive(-1, 4);
+			 updateLeftMenuStyle(iptvKeyMap.index_Keycode); 
+		 } 
+		 
+      }else if(currentKeyCode == 2){
+		 if(isNext()){
+			currentStep += 1;
+			if(currentStep > stepcount) currentStep = stepcount;
+			document.getElementById('propre').style.display="none";
+			document.getElementById('propre').className="fre";   
+			document.getElementById('pronext').style.display="block";
+			document.getElementById('pronext').className="fre active";  
+			moveScroll(2)
+			
+		 }else{
+		    setActive(1, 4);
+		    updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+		 } 
+      }else if(currentKeyCode == 3){
+		  document.getElementById('xuanze').style.display="block";
+		  document.getElementById('pronext').style.display="none";
+		  document.getElementById('pronext').className="fre";
+		  document.getElementById('propre').style.display="block";
+		  document.getElementById('propre').className="fre";
+      }else if(currentKeyCode == 4){
+		  if(!(hasNext()||hasLast())) return;
+		  
+		  document.getElementById('xuanze').style.display="none";
+		  document.getElementById('pronext').style.display="block";
+		  document.getElementById('pronext').className="fre active";
+		  document.getElementById('propre').style.display="none";
+		  document.getElementById('propre').className="fre";
+      }else if(currentKeyCode == 5){
+		if(iptvKeyMap.index_Keycode == 0 && menuFlag[0]){
+		  relocation('index.html');
+		}else if(iptvKeyMap.index_Keycode == 1 && menuFlag[1]){
+		  relocation('news.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 2 && menuFlag[2]){
+		  relocation('productlist.html');
+		}else if(iptvKeyMap.index_Keycode == 3 && menuFlag[3]){
+		  relocation('activity.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 4 && menuFlag[4]){
+		  relocation('member.html?historyPath='+historyPath);
+		}
+      }
+      
+    if(currentKeyCode == 0){
+       if(historyPath == "productlist.html"){
+		   relocation('productlist.html?selectIndex=5');
+	   }else{
+		   relocation('member.html?historyPath='+historyPath+'&selectIndex='+selectIndex);
+	   }
+    }
+	/* if(currentStep >= 1){
+		var pronextclassName = document.getElementById('pronext').className;
+		var propreclassName = document.getElementById('propre').className;
+		   
+		if(pronextclassName == "fre"){
+		  document.getElementById('pronext').src = "../assets/imgs/product/下一页.png";
+		  document.getElementById('pronext').style.top="610px";
+		  document.getElementById('pronext').style.left="950px;"
+		}else if(pronextclassName == "fre active"){
+		  document.getElementById('pronext').src = "../assets/imgs/product/下一页-选中.png";
+		  document.getElementById('pronext').style.top="610px";
+		  document.getElementById('pronext').style.left="950px;"
+		}
+		if(propreclassName == "fre"){
+		  document.getElementById('propre').src = "../assets/imgs/product/上一页.png";
+		  document.getElementById('propre').style.top="610px";
+		  document.getElementById('propre').style.left="850px;"
+		}else if(propreclassName == "fre active"){
+		  document.getElementById('propre').src = "../assets/imgs/product/上一页-选中.png";
+		  document.getElementById('propre').style.top="610px";
+		  document.getElementById('propre').style.left="850px;"
+		}
+	} */
+  }
+  
+  function updateLeftMenuStyle(homeIndex){
+	  var base = 32;
+	  var tops = [(base+19),(base+132),(base+247),(base+367),(base+487)];
+      try {
+		document.getElementById('xuanze').style.display="block";
+        document.getElementById('xuanze').style.top=tops[homeIndex]+"px";
+		
+		setMenuFlagFalse();
+		menuFlag[homeIndex] = true;
+		
+      } catch (error) {
+          
+      }
+  }
+  
+  function setMenuFlagFalse(){
+	  for(var i=0;i<menuFlag.length;i++){
+	      menuFlag[i] = false;
+	  }
+  }
+  
+  function isNext(){
+    return document.getElementById('pronext').className=="fre active";
+  }
+  function isLast(){
+    return document.getElementById('propre').className=="fre active";
+  }
+  function hasNext(){
+    return document.getElementById('pronext').style.display!="none";
+  }
+  function hasLast(){
+    return document.getElementById('propre').style.display!="none";
+  }
+  
+  function isImg2(){
+    return document.getElementById('img2').className=="fre active";
+  }
+  function hasImg2(){
+    return document.getElementById('img2').style.display!="none";
+  }
+  
+  function resetNewsActive(){
+    // document.getElementById('img1').className = "fre";
+    document.getElementById('pronext').className = "fre";
+    document.getElementById('propre').className = "fre";
+	document.getElementById('pback').className="fre";
+  }
+  
+  function setRightImg(currentStep){
+  	  var tempi = "p11"+"-"+currentStep+".png";
+  	  for(var i=0;i<productResult.image.length;i++){
+  	    var obb = productResult.image[i];
+  		var tobb = obb.substring(obb.lastIndexOf("/")+1);
+  	    if(tobb == tempi){
+			var ttt = "../assets/imgs/product/";
+  			document.getElementById('img1').src= ttt+obb;
+  			break;
+  	    }
+  	  }
+  }
+  
+  function moveScroll(type){
+	  var position = [133,-421,-974,-1532,-2085,-2638,-3196];
+  	  var h = $("#img2").height();
+  	  var temp = ( currentStep / stepcount);
+  	  var ntop = temp * 500;
+  	  
+  	  if(currentStep==1){
+		document.getElementById('img2').style.top= "133px";
+  	  }else if(currentStep > 1){
+  	     //显示上一页内容
+		 document.getElementById('img2').style.top= position[currentStep] +"px";
+  	  }
+  	  if(ntop<165){
+  	  	ntop = 165 + currentStep * 15; 
+  	  }
+  	  document.getElementById('pronext').style.top= ntop +"px";
+  }
+  
+  function setRimg(){
+	var obb = productResult.image[0];
+	document.getElementById('img2').src= obb;
+	var h = $("#img2").height();
+	stepcount = h/548;
+  }
+  
+</script>
+
+</html>
+

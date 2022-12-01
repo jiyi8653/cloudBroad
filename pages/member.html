@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../assets/css/common.css?v=1" rel="stylesheet" />
+  <link href="../assets/css/activity.css?v=1" rel="stylesheet" />
+  <script src="../assets/js/utils.js?v=1"></script>
+  <script src="../assets/js/iptvKeyMap.js?v=1"></script>
+  <script src="../assets/js/player.js"></script>
+  <script src="../assets/js/jquery-1.js" type="text/javascript" charset="utf-8"></script>
+
+  <style>
+    .video-bg {
+      background-image: url('../assets/imgs/commonbgimg.jpg');
+    }
+	.v-active{
+	    /* border-radius: 14px; */
+	    box-shadow: #f6d5a8 0px 0px 0px 4px;
+	    transition: all 0.4s ease-out;
+	    -webkit-transition: all 0.4s;
+	    transform: scale(1.02, 1.02);
+	    border-color: #f6d5a8 !important;
+	}
+  </style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="video-bg">
+	<img src="../assets/imgs/选择.png" id="xuanze" class="fre" style="width:298px;height:104px;top: 519px;left: 21px;"/>
+	<div style="width: 480px;height: auto;margin-top: 33px;">
+	  <img src="../assets/imgs/yunkuandai.png" class="fre" id="fre0" style="width:290px;height:95px;left:25px;top:22px;"/>
+	  <img src="../assets/imgs/yunzixun.png" class="fre activity" id="fre1" style="width:290px;height:95px;left: 25px;top:135px;"/>
+	  <img src="../assets/imgs/yunchanpin.png" class="fre" id="fre2" style="width:290px;height:95px;left: 25px;top:250px;"/>
+	  <img src="../assets/imgs/huodongzhuanqu.png" class="fre" id="fre3" style="width:290px;height:95px;left: 25px;top:370px;"/>
+	  <img src="../assets/imgs/huiyuanzhuanqu-selected.png" class="fre" id="fre4" style="width:290px;height:95px;left: 25px;top:490px;"/>
+	</div>
+	<div id="rightcontent" style="position: relative;">
+		<img src="../assets/imgs/membg.jpg" class="fre" style="width: 880px;height: 660px;left: 360px;top:30px;">
+		<!-- 临时图片显示视频位置 -->
+		<img id="fre5" src="../assets/imgs/mem1.png" class="fre" style="width: 390px;height: 300px;left: 372px;top:110px;">
+		<img id="fre6" src="../assets/imgs/mem2.png" class="fre" style="width: 460px;height: 300px;left: 764px;top:110px;">
+		<img id="fre7" src="../assets/imgs/mem3.png" class="fre" style="width: 855px;height: 253px;left: 372px;top:422px;">
+	</div>
+
+		
+
+	<!--音量-->
+	<img src="../assets/resources/imgs/vmute.png" class="fre complayer sound-bar" id="mute-bar" style="left:20px;top:140px;display: none;z-index:1000;" />
+	<img src="../assets/resources/imgs/v0.png" class="fre complayer sound-bar" id="volume-bar" style="left:20px;top:400px;display: none;z-index:1000;" />
+
+
+</body>
+<script>
+  var selectIndex = 0;
+  var historyPath="";
+window.onload = function(){
+  iptvKeyMap.selectedIndex = 0;
+  iptvKeyMap.index_Keycode = 4;
+  historyPath = getQueryVariable("historyPath");
+  selectIndex = getQueryVariable("selectIndex");
+  if(selectIndex){
+	  document.getElementById('xuanze').style.display="none";
+      iptvKeyMap.index_Keycode = parseInt(selectIndex);
+      updateRightContentStyle(iptvKeyMap.index_Keycode);
+  }
+};
+
+  function action(){
+      if(currentKeyCode == 1){
+		if(iptvKeyMap.index_Keycode==5){return; }	  
+		if(iptvKeyMap.index_Keycode==7){
+		  	setActive(-2, 7); 
+		    updateRightContentStyle(iptvKeyMap.index_Keycode);
+		}else{
+			document.getElementById('xuanze').style.display="block";
+			setActive(-1, 4);
+			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+		}
+      }else if(currentKeyCode == 2){
+		if(iptvKeyMap.index_Keycode==5){
+			setActive(2, 7); 
+		    updateRightContentStyle(iptvKeyMap.index_Keycode);
+		}else if(iptvKeyMap.index_Keycode==6){
+			setActive(1, 7); 
+		    updateRightContentStyle(iptvKeyMap.index_Keycode);
+		}else{
+			setActive(1, 4);
+			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+		}  
+      }else if(currentKeyCode == 3){
+		  if(iptvKeyMap.index_Keycode==0){return; }	
+		  if(iptvKeyMap.index_Keycode==5){
+			setActive(-1, 4);
+			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+		  }else if(iptvKeyMap.index_Keycode==7){
+			setActive(-7, 4);
+			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+		  }else{
+			  //右边内容 5~7之间
+			  if(iptvKeyMap.index_Keycode>5 && iptvKeyMap.index_Keycode<7){
+				setActive(-1,7)
+			  }else{ //光标左边菜单之间跳转到右边
+				setActive(5, 7);
+			  }
+			  updateRightContentStyle(iptvKeyMap.index_Keycode);
+		  }
+      }else if(currentKeyCode == 4){
+		  if(iptvKeyMap.index_Keycode > 4){
+		  	 setActive(1,7);	
+		  }else if(iptvKeyMap.index_Keycode <=2){
+			iptvKeyMap.index_Keycode = 5;
+			document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+		  }//左边菜单为2，跳转到右边视频选中；菜单为4，跳转到游戏加速
+		  else if(iptvKeyMap.index_Keycode >2 && iptvKeyMap.index_Keycode <= 4){
+			iptvKeyMap.index_Keycode = 5;
+			document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+		  }
+		  document.getElementById('xuanze').style.display="none";
+		  updateRightContentStyle(iptvKeyMap.index_Keycode);
+      }else if(currentKeyCode == 5){
+		if(iptvKeyMap.index_Keycode == 0){
+		  relocation('index.html');
+		}else if(iptvKeyMap.index_Keycode == 1){
+		  relocation('news.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 2){
+		  relocation('productlist.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 3){
+		  relocation('activity.html?historyPath='+historyPath);
+		}else if(iptvKeyMap.index_Keycode == 5){
+		  relocation('membernomal.html?historyPath='+historyPath+'&selectIndex=5');
+		}else if(iptvKeyMap.index_Keycode == 6){
+		  relocation('membervip.html?historyPath='+historyPath+'&selectIndex=6');
+		}else if(iptvKeyMap.index_Keycode == 7){
+		  relocation('memberfamily.html?historyPath='+historyPath+'&selectIndex=7');
+		}
+      }
+      
+    if(currentKeyCode == 0){
+       if(historyPath == "productlist.html"){
+		   relocation('productlist.html?selectIndex=5');
+	   }else{
+		   relocation('index.html?selectIndex=5');
+	   }
+    }
+  }
+  
+  function updateLeftMenuStyle(homeIndex){
+	  var base = 32;
+	  var tops = [(base+19),(base+132),(base+247),(base+367),(base+487)];
+      try {
+		document.getElementById('xuanze').style.display="block";
+        document.getElementById('xuanze').style.top=tops[homeIndex]+"px";
+      } catch (error) {
+          
+      }
+  }
+  function updateRightContentStyle(homeIndex){
+	  for(var i=5;i<8;i++){
+		document.getElementById('fre'+i).className="fre";  
+	  }
+	  document.getElementById('fre'+homeIndex).className="fre v-active";
+  }
+</script>
+
+</html>
+

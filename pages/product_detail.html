@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../assets/css/common.css?v=1" rel="stylesheet" />
+  <link href="../assets/css/activity.css?v=1" rel="stylesheet" />
+  <script src="../assets/js/utils.js?v=1"></script>
+  <script src="../assets/js/iptvKeyMap.js?v=1"></script>
+  <script src="../assets/js/player.js"></script>
+  <script src="../assets/js/jquery-1.js" type="text/javascript" charset="utf-8"></script>
+
+  <style>
+    .video-bg {
+      background-image: url('../assets/imgs/product/pbg1.png');
+    }
+	.video-bg2 {
+	  background-image: url('../assets/imgs/product/pbg2.png');
+	}
+    .active{
+      border: 0;
+      box-shadow: unset;
+    }
+  </style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="video-bg">
+  <!-- <img id="docimg" src="../assets/imgs/product/whitebgimg.png" class="fre" style="width: 880px;height:570px;left:353px;top:74px;"/> -->
+  <img src="../assets/imgs/product/pxuanze.png" id="newsxuanze0" class="fre" style="width:326px;height:106px;top: 15px;left: 13px;"/>
+  <!-- <img src="../assets/imgs/product/pxuanze.png" id="newsxuanze1" class="fre" style="width:326px;height:106px;top:212px;left:13px;display:none;"></img>
+  <img src="../assets/imgs/product/pxuanze.png" id="newsxuanze2" class="fre" style="width:326px;height:106px;top:335px;left:13px;display:none;"></img> -->
+
+  <!-- 左边的菜单 -->
+  <div id="leftcontent" style="position: relative;">
+	  <!-- <img src="../assets/imgs/product/p11-selected.png" class="fre" id="fre0" style="top:87px;left:13px" />
+	  <img src="../assets/imgs/product/p12.png" class="fre" id="fre1" style="top:231px;left:33px" />
+	  <img src="../assets/imgs/product/p13.png" class="fre" id="fre2" style="top:354px;left:33px" />
+	  <img src="../assets/imgs/product/p1code.png" class="fre" id="frecode" style="width:158px;height:189px;top:495px;left:58px" /> -->
+  </div>
+
+  <!-- 右边内容介绍 -->
+  <div id="rightcontent" style="position: relative;">
+	  <img src="../assets/imgs/product/p11-1.png" id="img1" class="fre" style="width: 880px;height:570px;left:355px;top:74px;"/>
+	  <img src="../assets/imgs/product/下一页.png" class="fre" id="pronext" style="width:129px;height:68px;top:563px;left:1080px;z-index:1000;" />
+	  <img src="../assets/imgs/product/上一页.png" class="fre" id="propre" style="width:129px;height:68px;top:563px;left:950px;z-index:1000" />
+	  <img src="../assets/imgs/product/tuwenbtn.png" class="fre" id="protuwen" style="width:273px;height:100px;top:563px;left:950px;z-index:1000" />
+  </div>
+  
+  <!--音量-->
+  <img src="../assets/resources/imgs/vmute.png" class="fre complayer sound-bar" id="mute-bar" style="left:20px;top:20px;display: none;" />
+  <img src="../assets/resources/imgs/v0.png" class="fre complayer sound-bar" id="volume-bar" style="left:250px;top: 400px;display: none;" />
+
+  <div class="video" id="video0" data="rtsp://10.192.78.200/88888888/16/20220908/268958792/268958792.mpg"></div>
+  <div class="video" id="video1" data="rtsp://10.192.78.200/88888888/16/20220908/268958792/268958792.mpg"></div>
+  <div class="video" id="video2" data="rtsp://10.192.78.200/88888888/16/20220908/268958792/268958792.mpg"></div>
+
+</body>
+<script>
+  var selectedIndex = 0;
+  var contentId = 0;
+  var fre0img = "../assets/imgs/product/p11.png";
+  var fre1img = "../assets/imgs/product/p12.png";
+  var fre2img = "../assets/imgs/product/p13.png";
+  var fre3img = "../assets/imgs/product/p13.png";
+  
+  var fre0imgselected = "../assets/imgs/product/p11-selected.png";
+  var fre1imgselected = "../assets/imgs/product/p12-selected.png";
+  var fre2imgselected = "../assets/imgs/product/p13-selected.png";
+  var fre3imgselected = "../assets/imgs/product/p13-selected.png";
+
+  var currentStep = 1;
+  var stepcount = 1;
+  var steps = [3, 3];
+
+  var currentpage=1;
+  var descFlag = false;  //使用说明flag,默认没有点击查看图文
+
+var productResult=[
+        {
+            "id": null,
+            "cateId": 0,
+            "name": "../assets/imgs/product/p11-selected.png",
+            "typeId": 1,
+            "desc": "../assets/imgs/product/p11-selected.png",
+            "pageNum": 1,
+            "image": ["/p11-1.png","/p11-2.png","/p11-3.png"],
+            "videoUrl": "https://www.w3school.com.cn/i/movie.ogg"
+        },
+        {
+            "id": 2,
+            "cateId": 0,
+            "name": "../assets/imgs/news3.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["/p12-1.png","/p12-2.png","/p12-3.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 3,
+            "cateId": 0,
+            "name": "../assets/imgs/news3.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/p13-1.png","../assets/imgs/zixun/p13-2.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 4,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/p14-1.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 5,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/p15-1.png"],
+            "videoUrl": null
+        }
+    ];
+
+
+
+window.onload = function(){
+  iptvKeyMap.selectedIndex = 0;
+  //获得传过来的当前第几页
+  currentpage = getQueryVariable("page");
+  //获得菜单和对应的菜单内容
+  getInitData();
+  resetNewsActive();
+  hideAll();
+  
+  document.getElementById('pronext').style.display="none";
+  document.getElementById('propre').style.display="none";
+  document.getElementById('protuwen').style.display="none";
+  
+};
+//初始化数据
+function getInitData(){
+	var url = "product";
+	var param = {
+	  "id":currentpage,
+	}
+	
+	httpTools.httpPost(url,param,function(res){
+		if(res.code ==200){
+		   productResult = res.data;
+		   handleProResult(productResult);
+		}
+	},function(){
+	});
+}
+//处理数据
+function handleProResult(result){
+	//步数重置
+	steps = [];
+	var temp = "";
+	for(var i=0;i<result.length;i++){
+		try{
+			var obj = result[i];
+			if(i==0){
+				temp+='<img class="fre" src="'+obj.desc+'" id="fre'+i+'" style="top:'+(15)+'px;left:13px"/>';
+			}else{//除第一个和二维码
+			   //设置图片步数
+			   steps.push(obj.image.length);
+			   temp+='<img class="fre" src="'+obj.name+'" id="fre'+i+'" style="top:'+(120+85*(i-1))+'px;left:33px"/>';
+			}
+			//获得商品介绍video的链接
+			if(obj.videoUrl){
+				var videoUrl = obj.videoUrl;
+				document.getElementById('video'+i).setAttribute('data',videoUrl);
+				if(i==0){
+					playProductVideo(videoUrl,iptvKeyMap.selectedIndex);
+				}
+			}
+			
+			/* 
+			//二维码
+			else if(i==result.length-1){
+			   temp+='<img class="fre" src="'+obj.name+'" id="fre'+i+'" style="width:145px;height:168px;top:530px;left:80px"/>';
+			}else{//除第一个和二维码
+			   steps.push(obj.image.length);
+			   temp+='<img class="fre" src="'+obj.name+'" id="fre'+i+'" style="top:'+(120+90*(i-1))+'px;left:33px"/>';
+			} */
+		}catch(e){
+			//TODO handle the exception
+		}
+	}
+	document.getElementById("leftcontent").innerHTML = temp;
+	
+	document.getElementById('fre'+iptvKeyMap.selectedIndex).className = "fre active";
+	updateSelectProductMenu(iptvKeyMap.selectedIndex);
+}
+
+
+  function action(){
+      if(currentKeyCode == 1){
+        if(isNext() || isLast()) return;
+        iptvKeyMap.selectedIndex -= 1;
+		resetDescFlag(iptvKeyMap.selectedIndex);
+        if(iptvKeyMap.selectedIndex < 0) iptvKeyMap.selectedIndex = 0;
+        updateSelectProductMenu(iptvKeyMap.selectedIndex);
+      }else if(currentKeyCode == 2){
+        if(isNext() || isLast()) return;
+        iptvKeyMap.selectedIndex += 1;
+		resetDescFlag(iptvKeyMap.selectedIndex);
+        if(iptvKeyMap.selectedIndex >= productResult.length-1 ) iptvKeyMap.selectedIndex = productResult.length-1;
+        updateSelectProductMenu(iptvKeyMap.selectedIndex);
+      }else if(currentKeyCode == 3){
+        if(isNext() && currentStep > 1){
+          document.getElementById('propre').style.display="block";
+          document.getElementById('propre').className="fre active";
+          document.getElementById('pronext').className="fre";
+        }else if(isLast()){
+          resetNewsActive();
+          document.getElementById('fre'+iptvKeyMap.selectedIndex).className = "fre active";
+          updateSelectProductMenu(iptvKeyMap.selectedIndex);
+        }else{
+          resetNewsActive();
+          document.getElementById('fre'+iptvKeyMap.selectedIndex).className = "fre active";
+          updateSelectProductMenu(iptvKeyMap.selectedIndex);
+        }
+      }else if(currentKeyCode == 4){
+        if(!(hasNext()||hasLast() || hasTuwen())) return;
+		if((iptvKeyMap.selectedIndex == 1 || iptvKeyMap.selectedIndex == 2) && hasTuwen()){
+			document.getElementById('protuwen').src = "../assets/imgs/product/tuwenbtn-selected.png";
+			document.getElementById('protuwen').className="fre active";
+        }else if(iptvKeyMap.selectedIndex >= 1 || !hasTuwen()){
+          if(currentStep == 1){
+            resetNewsActive();
+            document.getElementById('pronext').style.display="block";
+            document.getElementById('pronext').className="fre active";
+          }else{
+            if(isLast() && currentStep < stepcount){
+              document.getElementById('pronext').style.display="block";
+              document.getElementById('pronext').className="fre active";
+              document.getElementById('propre').className="fre";
+            }else{
+              if(isNext()) return;
+              document.getElementById('propre').style.display="block";
+              document.getElementById('propre').className="fre active";
+            }
+          }
+          document.getElementById('newsxuanze0').style.display="none";
+          // document.getElementById('newsxuanze1').style.display="none";
+          // document.getElementById('newsxuanze2').style.display="none";
+        }else{
+          resetNewsActive();
+          document.getElementById('fre'+iptvKeyMap.selectedIndex).className = "fre active";
+        }
+      }else if(currentKeyCode == 5){
+		//获得图片步数  
+		stepcount = steps[iptvKeyMap.selectedIndex-1];
+        if(isNext()){
+          iptvKeyMap.selectedIndex = contentId;
+          currentStep += 1;   
+          if(currentStep > stepcount) currentStep = stepcount;
+          document.getElementById('img1').style.display="block";
+		  setRightImg(currentpage,iptvKeyMap.selectedIndex,currentStep);
+          if(currentStep == stepcount){
+            document.getElementById('pronext').style.display="none";
+            document.getElementById('pronext').className="fre";
+            document.getElementById('propre').style.display="block";
+            document.getElementById('propre').className="fre active";
+          }
+        }else if(isLast()){
+          iptvKeyMap.selectedIndex = contentId;
+          currentStep -= 1;
+          if(currentStep < 1) currentStep = 1;
+          document.getElementById('img1').style.display="block";
+		  setRightImg(currentpage,iptvKeyMap.selectedIndex,currentStep);
+		  
+          if(currentStep == 1){
+            document.getElementById('propre').style.display="none";
+            document.getElementById('propre').className="fre";
+            document.getElementById('pronext').style.display="block";
+            document.getElementById('pronext').className="fre active";
+          }
+        }
+		//图文按钮显示时
+		else if(isTuwen()){ 
+		    WindowPlayer.destory();
+			//隐藏图文按钮，显示右侧内容
+			document.getElementById('protuwen').className="fre";
+			document.getElementById('protuwen').style.display="none";
+			document.getElementById('img1').style.display="block";
+			setRightImg(currentpage,iptvKeyMap.selectedIndex,currentStep);
+			//如果图片数量大于1，显示下一页
+			if(productResult[iptvKeyMap.selectedIndex].image.length>1){
+			   document.getElementById('pronext').style.display = "block";
+			   document.getElementById('pronext').src = "../assets/imgs/product/下一页-选中.png";
+			   document.getElementById('pronext').className = "fre active";
+			}
+		}else{
+          document.getElementById('fre'+iptvKeyMap.selectedIndex).className = "fre active";
+		  //左边第一个菜单
+          if(iptvKeyMap.selectedIndex == 0){ 
+            document.getElementById('img1').style.display="none";
+            document.getElementById('pronext').style.display="none";
+            document.getElementById('propre').style.display="none";
+            playProductVideo(document.getElementById('video'+iptvKeyMap.selectedIndex).getAttribute('data'),iptvKeyMap.selectedIndex);
+          }//左边第二个，第三个菜单，产品介绍 / 使用说明
+		  else if((iptvKeyMap.selectedIndex ==1 || iptvKeyMap.selectedIndex ==2) && !descFlag){ 
+			WindowPlayer.destory();
+			//隐藏上一页，下一页，右侧内容区域
+			document.getElementById('pronext').style.display="none";
+			document.getElementById('propre').style.display="none";
+			document.getElementById('img1').style.display="none";
+			//切换播放视频的小背景
+			document.body.className = "video-bg2";
+			//显示图文按钮
+			document.getElementById('protuwen').style.display="block";
+			document.getElementById('protuwen').src = "../assets/imgs/product/tuwenbtn.png";
+			//播放视频
+			playProductVideo(document.getElementById('video'+iptvKeyMap.selectedIndex).getAttribute('data'),iptvKeyMap.selectedIndex); 
+			
+			currentStep = 1;
+			//当
+			if(iptvKeyMap.selectedIndex ==2){
+			  descFlag = true; 
+			}else{
+			  descFlag = false; 
+			} 
+		  }else if(iptvKeyMap.selectedIndex >= 2 || !hasTuwen()){
+            WindowPlayer.destory();
+            if(stepcount > 1){
+              document.getElementById('pronext').style.display = "block";
+            }
+            currentStep = 1;
+            document.getElementById('pronext').style.display="none";
+            document.getElementById('propre').style.display="none";
+			
+			document.getElementById('img1').style.display="block";
+			setRightImg(currentpage,iptvKeyMap.selectedIndex,currentStep);
+			
+			stepcount = steps[iptvKeyMap.selectedIndex-1];
+			
+            if(stepcount > 1) {
+              document.getElementById('pronext').style.display="block";
+            }
+          }
+        }
+        if(isNext()||isLast()){
+          if(currentStep < stepcount && currentStep >1){
+            document.getElementById('propre').style.display="block";
+            document.getElementById('pronext').style.display="block";
+          }
+        }
+        updateProductMenu(iptvKeyMap.selectedIndex);
+      }
+      
+    if(currentKeyCode == 0){
+      relocation('productlist.html?selectIndex=1');
+    }
+
+    if(iptvKeyMap.selectedIndex >= 1 && (isNext()||isLast())){
+		var pronextclassName = document.getElementById('pronext').className;
+		var propreclassName = document.getElementById('propre').className;
+		   
+		if(pronextclassName == "fre"){
+		  document.getElementById('pronext').src = "../assets/imgs/product/下一页.png";
+		  document.getElementById('pronext').style.top="563px";
+		  // document.getElementById('pronext').style.width="99px";
+		  // document.getElementById('pronext').style.height="36px";
+		  document.getElementById('pronext').style.left="1080px;"
+		}else if(pronextclassName == "fre active"){
+		  document.getElementById('pronext').src = "../assets/imgs/product/下一页-选中.png";
+		  document.getElementById('pronext').style.top="563px";
+		  // document.getElementById('pronext').style.width="129px";
+		  // document.getElementById('pronext').style.height="68px";
+		  document.getElementById('pronext').style.left="1077px;"
+		}
+		if(propreclassName == "fre"){
+		  document.getElementById('propre').src = "../assets/imgs/product/上一页.png";
+		  document.getElementById('propre').style.top="563px";
+		  // document.getElementById('propre').style.width="99px";
+		  // document.getElementById('propre').style.height="36px";
+		  document.getElementById('propre').style.left="950px;"
+		}else if(propreclassName == "fre active"){
+		  document.getElementById('propre').src = "../assets/imgs/product/上一页-选中.png";
+		  document.getElementById('propre').style.top="563px";
+		  // document.getElementById('propre').style.width="129px";
+		  // document.getElementById('propre').style.height="68px";
+		  document.getElementById('propre').style.left="950px;"
+		}
+	}
+  }
+
+  function playProductVideo(url,index){
+	if(index ==0){
+       WindowPlayer.initParam(383, 104, 820, 510);
+	}else{ //TODO 播放视频的区域需要调整，针对第二，三菜单
+	   WindowPlayer.initParam(383, 104, 820, 510);	
+	}
+    WindowPlayer.setSingleUrl(url);
+    WindowPlayer.playFromStart();
+  }
+
+  function updateProductMenu(index){
+	  //TODO 将desc里的值作为选中后的图片
+	  for(var i=0;i<productResult.length;i++){
+		  var obj = productResult[i];
+		  document.getElementById('fre'+i).className="fre";
+		  document.getElementById('fre'+i).src=obj.name;
+		  if(i==index){
+		    document.getElementById('fre'+index).className="fre active";
+			document.getElementById('fre'+index).src=obj.desc;
+		  }
+	  }
+	  contentId = index;  
+  }
+
+  function hideAll(){
+    document.getElementById('img1').style.display = "none";
+  }
+
+  function showContent(newsId){
+    currentStep = 1;
+    if(newsId == 1){
+      document.getElementById('newsContent').src = "../assets/imgs/zixun/资讯1.png";
+      document.getElementById('pronext').style.display="none";
+      document.getElementById('propre').style.display="none";
+      updateProductMenu(1);
+    }else if(newsId == 2){
+      document.getElementById('newsContent').src = "../assets/imgs/zixun/资讯2.png";
+      document.getElementById('pronext').style.display="none";
+      document.getElementById('propre').style.display="none";
+      updateProductMenu(2);
+    }else if(newsId == 3){
+      document.getElementById('newsContent').src = "../assets/imgs/zixun/3-1.png";
+      document.getElementById('pronext').style.display="block";
+      document.getElementById('pronext').style.display="fre active";
+      document.getElementById('propre').style.display="none";
+      document.getElementById('propre').style.display="fre";
+      updateProductMenu(3);
+    }
+  }
+
+  function setImgClass(){
+	for(var i=0;i<productResult.length-1;i++){
+		try{
+		  document.getElementById('fre'+i).className = "fre";
+			
+		}catch(e){
+			//TODO handle the exception
+		}
+	}
+  }
+
+  function resetNewsActive(){
+	setImgClass();
+    document.getElementById('img1').className = "fre";
+    document.getElementById('pronext').className = "fre";
+    document.getElementById('propre').className = "fre";
+	// document.getElementById('pronext').src = "../assets/imgs/product/下一页-选中.png";
+	// document.getElementById('propre').src = "../assets/imgs/product/上一页-选中.png";
+  }
+
+  function isNext(){
+    return document.getElementById('pronext').className=="fre active";
+  }
+  function isLast(){
+    return document.getElementById('propre').className=="fre active";
+  }
+  function hasNext(){
+    return document.getElementById('pronext').style.display!="none";
+  }
+  function hasLast(){
+    return document.getElementById('propre').style.display!="none";
+  }
+  function isTuwen(){
+    return document.getElementById('protuwen').className=="fre active";
+  }
+  function hasTuwen(){
+    return document.getElementById('protuwen').style.display!="none";
+  }
+
+  function updateSelectProductMenu(index){
+	document.getElementById('fre'+index).className="fre active";
+	document.getElementById('newsxuanze0').style.display="block";
+	if(index ==0){
+	   document.getElementById('newsxuanze0').style.top="16px";
+	}else{
+	   document.getElementById('newsxuanze0').style.top=(100+85*(index-1))+"px";	
+	}
+  }
+  
+  function setRightImg(currentpage,selectedIndex,currentStep){
+	  if(selectedIndex == 1){
+	  	document.body.className = "video-bg2";
+	  }else{
+		document.body.className = "video-bg";
+	  }
+	  var tempi = "p"+currentpage+(selectedIndex+1)+"-"+currentStep+".png";
+	  for(var i=0;i<productResult[selectedIndex].image.length;i++){
+	    var obb = productResult[selectedIndex].image[i];
+		var tobb = obb.substring(obb.lastIndexOf("/")+1);
+	    if(tobb == tempi){
+			document.getElementById('img1').src= obb;
+			break;
+	    }
+	  }
+  }
+
+  function resetDescFlag(selectedIndex){
+	  if(selectedIndex!=2){
+	  	descFlag = false;
+	  }
+  }
+</script>
+
+</html>
+

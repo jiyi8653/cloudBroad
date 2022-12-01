@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../assets/css/common.css?v=3" rel="stylesheet" />
+  <link href="../assets/css/activity.css?v=3" rel="stylesheet" />
+  <link href="../assets/css/lun.css" rel="stylesheet"/>
+  <script src="../assets/js/utils.js?v=1"></script>
+  <script src="../assets/js/iptvKeyMap.js?v=4"></script>
+  <script src="../assets/js/player.js?v=2"></script>
+  <script src="../assets/js/jquery-1.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../assets/js/lun.js" type="text/javascript" charset="utf-8"></script>
+  <style>
+    .video-bg {
+      background-image: url('../assets/imgs/commonbgimg.jpg');
+    }
+    .active{
+      border: 0;
+      box-shadow: unset;
+    }
+  </style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="video-bg">
+
+ <img src="../assets/imgs/选择.png" id="xuanze" class="fre" style="width:298px;height:104px;top: 279px;left: 21px;"/>
+ <div style="width: 480px;height: auto;margin-top: 33px;">
+   <img src="../assets/imgs/yunkuandai.png" class="fre" id="fre0" style="width:290px;height:95px;left:25px;top:22px;"/>
+   <img src="../assets/imgs/yunzixun.png" class="fre activity" id="fre1" style="width:290px;height:95px;left: 25px;top:135px;"/>
+   <img src="../assets/imgs/yunchanpin-selected.png" class="fre" id="fre2" style="width:290px;height:95px;left: 25px;top:250px;"/>
+   <img src="../assets/imgs/huodongzhuanqu.png" class="fre" id="fre3" style="width:290px;height:95px;left: 25px;top:370px;"/>
+   <img src="../assets/imgs/huiyuanzhuanqu.png" class="fre" id="fre4" style="width:290px;height:95px;left: 25px;top:490px;"/>
+ </div>
+  
+  <div class="box">
+	  <ul id="oul">
+		  <li id="li0" class="show0"><a><img data="1" src="../assets/imgs/p1.png" /></a></li>
+		  <li class="show1"><a><img data="2" src="../assets/imgs/p2.png" /></a></li>
+		  <li class="show2"><a><img data="3" src="../assets/imgs/p3.png" /></a></li>
+		  <li class="show3"><a><img data="4" src="../assets/imgs/p4.png" /></a></li>
+		  <li class="show4"><a><img data="5" src="../assets/imgs/p5.png" /></a></li>
+		  <li class="show5"><a><img data="6" src="../assets/imgs/p6.png" /></a></li>
+		  <li class="show6"><a><img data="7" src="../assets/imgs/p7.png" /></a></li>
+		  <li class="show7"><a><img data="8" src="../assets/imgs/p8.png" /></a></li>
+	  </ul>
+	  <div class="butBox">
+		  <div class="butL">
+			  <img id="butL" class="" src="../assets/imgs/left-arrow.png" />
+		  </div>
+		  <div class="butR">
+			  <img id="butR" src="../assets/imgs/right-arrow.png" />
+		  </div>
+	  </div>
+  </div>
+
+
+</body>
+<script src="../assets/js/lun.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  var selectedM=0;
+  var oul = document.getElementById("oul");
+  //获取到图片li集合
+  var oli = oul.getElementsByTagName("li");
+  //定义arr数组
+  var arr = ['show0','show1','show2','show3','show4','show5','show6','show7']
+  window.onload = function () {
+	// middleRotate();
+    setActive(2, 4);
+    iptvKeyMap.index_Keycode = 2;
+    lun.setNowInterval(oli);
+	
+	selectedM = getQueryVariable("selectIndex");
+	if(selectedM>0){
+		var currentM = selectedM-1;
+		iptvKeyMap.index_Keycode = currentM
+	    updateLeftMenuStyle(currentM);
+	}
+	
+  };
+
+  function action(){
+	  if(this.currentKeyCode==1){
+		//左边菜单选中
+		document.getElementById('xuanze').style.display="block";
+		setActive(-1, 4);
+		updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+	  }else if(this.currentKeyCode == 2){
+		if(iptvKeyMap.index_Keycode==5){
+		  setActive(-4, 4);	  
+		}else{
+		  setActive(1, 4);
+		}
+		updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+      }else if(this.currentKeyCode==3){
+		resetImgClass();
+		setNewActive(-1, 7);
+		if(iptvKeyMap.index_Keycode>=5){
+		   lun.stopNowInterval();
+		   if(iptvKeyMap.index_Keycode==5){
+		   	document.getElementById("butL").className = "v-active"  
+		   }else if(iptvKeyMap.index_Keycode==6){
+			   var classN = getLi2().className;
+			   getLi2().className=classN + " v-active";
+		   }else if(iptvKeyMap.index_Keycode==7){
+		      document.getElementById("butR").className = "v-active"
+		   }
+		}else{
+			if(iptvKeyMap.index_Keycode<=4){
+		       iptvKeyMap.index_Keycode=2;
+			}
+		   lun.setNowInterval(oli);	
+		   updateLeftMenuStyle(iptvKeyMap.index_Keycode);	
+		}
+	  }else if(this.currentKeyCode==4){
+		resetImgClass();
+		lun.stopNowInterval();
+		if(iptvKeyMap.index_Keycode<=4){
+			iptvKeyMap.index_Keycode=5;
+		    document.getElementById("butL").className = "v-active"
+		}else{
+			setNewActive(1,7);
+			if(iptvKeyMap.index_Keycode==6){
+				var classN = getLi2().className;
+				getLi2().className=classN + " v-active";
+			}else{
+				document.getElementById("butR").className = "v-active"
+			}
+		}  
+	  }else if(this.currentKeyCode==5){
+		  var historyPath="productlist.html";
+		  if(iptvKeyMap.index_Keycode == 0){
+		    relocation('index.html');
+		  }else if(iptvKeyMap.index_Keycode == 1){
+		    relocation('news.html?historyPath='+historyPath);
+		  }else if(iptvKeyMap.index_Keycode == 2){
+		    relocation('productlist.html');
+		  }else if(iptvKeyMap.index_Keycode == 3){
+		    relocation('activity.html?historyPath='+historyPath);
+		  }else if(iptvKeyMap.index_Keycode == 4){
+		    relocation('member.html?historyPath='+historyPath);
+		  }
+		  //向左
+		  else if(iptvKeyMap.index_Keycode == 5){
+		    lun.butL(arr,oli);
+		  }
+		  //中间
+		  else if(iptvKeyMap.index_Keycode == 6){
+			var li= getLi2();
+			var pagey = li.getAttribute("data");
+			relocation('product'+pagey+'.html?page='+pagey);
+		  }
+		  //向右
+		  else if(iptvKeyMap.index_Keycode == 7){
+		    lun.butR(arr,oli);
+		  }
+	  }
+  }
+
+
+  function action2(){
+    if(iptvKeyMap.index_list == 0){
+      document.getElementById('xuanze').style.display="block";
+      if(this.currentKeyCode == 1){
+        iptvKeyMap.index_Keycode = 1;
+        resetProductListActive();
+        setActive(0, 3);
+        updateMenu(iptvKeyMap.index_Keycode);
+      }else if(this.currentKeyCode == 3){
+        setActive(-1, 3);
+        updateMenu(iptvKeyMap.index_Keycode);
+      }else if(this.currentKeyCode == 4){
+        setActive(1, 3);
+        updateMenu(iptvKeyMap.index_Keycode);
+      }else if(this.currentKeyCode == 2){
+        document.getElementById('xuanze').style.display="none";
+        iptvKeyMap.index_list = 1;
+        resetProductListActive();
+      }else if(this.currentKeyCode == 5){
+        if(iptvKeyMap.index_Keycode == 0){
+          relocation('../index.html');
+        }else if(iptvKeyMap.index_Keycode == 1){
+          relocation('productlist.html');
+        }else if(iptvKeyMap.index_Keycode == 2){
+          relocation('news.html');
+        }else if(iptvKeyMap.index_Keycode == 3){
+          relocation('activity.html');
+        }
+      }else if(this.currentKeyCode == 0){
+        relocation('../index.html');
+      }
+    }else{
+      document.getElementById('xuanze').style.display="none";
+      if(this.currentKeyCode == 1){
+        if(iptvKeyMap.index_list <=4){
+          iptvKeyMap.index_list = 0;
+          resetProductListActive();
+          iptvKeyMap.index_Keycode = 1;
+          resetProductListActive();
+          setActive(0, 3);
+          updateMenu(iptvKeyMap.index_Keycode);
+          document.getElementById('xuanze').style.display="block";
+        }else{
+          if(iptvKeyMap.index_list==5){
+            iptvKeyMap.index_list = 1;
+            resetProductListActive();
+          }else if(iptvKeyMap.index_list==6){
+            iptvKeyMap.index_list = 2;
+            resetProductListActive();
+          }if(iptvKeyMap.index_list==7){
+            iptvKeyMap.index_list = 3;
+            resetProductListActive();
+          }if(iptvKeyMap.index_list==8){
+            iptvKeyMap.index_list = 4;
+            resetProductListActive();
+          }
+        }
+      }else if(this.currentKeyCode == 3){
+        iptvKeyMap.index_list -= 1;
+        if(iptvKeyMap.index_list < 1) iptvKeyMap.index_list = 1;
+        resetProductListActive();
+      }else if(this.currentKeyCode == 4){
+        iptvKeyMap.index_list += 1;
+        resetProductListActive();
+      }else if(this.currentKeyCode == 2){
+        if(iptvKeyMap.index_list == 1){
+          iptvKeyMap.index_list = 5;
+          resetProductListActive();
+        }else if(iptvKeyMap.index_list == 2){
+          iptvKeyMap.index_list = 6;
+          resetProductListActive();
+        }else if(iptvKeyMap.index_list == 3){
+          iptvKeyMap.index_list = 7;
+          resetProductListActive();
+        }else if(iptvKeyMap.index_list == 4){
+          iptvKeyMap.index_list = 8;
+          resetProductListActive();
+        }
+      }
+      if(this.currentKeyCode == 5){
+        if(iptvKeyMap.index_list > 0){
+          // relocation('product'+iptvKeyMap.index_list+'.html');
+		  relocation('product_detail.html?page='+iptvKeyMap.index_list);
+          //relocation('products/product1.html');
+        }
+      }else if(this.currentKeyCode == 0){
+        relocation('../index.html');
+      }
+    }
+    
+  }
+
+  function resetProductListActive(){
+    document.getElementById('prod1').className = "fre";
+    document.getElementById('prod2').className = "fre";
+    document.getElementById('prod3').className = "fre";
+    document.getElementById('prod4').className = "fre";
+    document.getElementById('prod5').className = "fre";
+    document.getElementById('prod6').className = "fre";
+    document.getElementById('prod7').className = "fre";
+    document.getElementById('prod8').className = "fre";
+    for(var i = 1; i<=8; i++){
+      document.getElementById('prod'+i).src="../assets/imgs/p"+i+".png";
+    }
+    document.getElementById('prod1').style.display="block";
+    document.getElementById('prod2').style.display="block";
+    document.getElementById('prod3').style.display="block";
+    document.getElementById('prod4').style.display="block";
+    document.getElementById('prod5').style.display="block";
+    document.getElementById('prod6').style.display="block";
+    document.getElementById('prod7').style.display="block";
+    document.getElementById('prod8').style.display="block";
+    document.getElementById('prod11').style.display="none";
+    document.getElementById('prod21').style.display="none";
+    document.getElementById('prod31').style.display="none";
+    document.getElementById('prod41').style.display="none";
+    document.getElementById('prod51').style.display="none";
+    document.getElementById('prod61').style.display="none";
+    document.getElementById('prod71').style.display="none";
+    document.getElementById('prod81').style.display="none";
+
+    if(iptvKeyMap.index_list > 0){
+      if(iptvKeyMap.index_list > 8) iptvKeyMap.index_list = 8;
+      document.getElementById('prod'+iptvKeyMap.index_list).className = "fre active";
+      document.getElementById('prod'+iptvKeyMap.index_list).style.display="none";
+      document.getElementById('prod'+iptvKeyMap.index_list+"1").style.display="block";
+    }
+  }
+  
+  
+  
+  function updateLeftMenuStyle(homeIndex){
+  	  var base = 32;
+  	  var tops = [(base+19),(base+132),(base+247),(base+367),(base+487)];
+      try {
+  		document.getElementById('xuanze').style.display="block";
+        document.getElementById('xuanze').style.top=tops[homeIndex]+"px";
+      } catch (error) {
+          
+      }
+  }
+  
+  function getLi2(){
+	for(var i=0;i<oli.length;i++){
+		var obj = oli[i];
+		if(obj.className == "show2"){
+			return obj.firstChild.firstChild;
+			break;
+		}
+	}  
+  }
+  
+  function setNewActive(dal, max){
+	iptvKeyMap.index_Keycode += dal;
+	if(iptvKeyMap.index_Keycode < 0) iptvKeyMap.index_Keycode = 0;
+	if(iptvKeyMap.index_Keycode > max) iptvKeyMap.index_Keycode = max;
+  }
+  
+  function resetImgClass(){
+	  document.getElementById("butL").className = "";
+	  document.getElementById("butR").className = "";
+	  try{
+	  	var classN = getLi2().className;
+		var cAry = classN.split(" ");
+	  	getLi2().className=cAry[0];
+	  }catch(e){
+	  	//TODO handle the exception
+	  }
+  }
+  
+  function isLeft(){
+	var l = document.getElementById('butL').className=="v-active";
+    return l;
+  }
+  function isRight(){
+    return document.getElementById('butR').className=="v-active";
+  }
+</script>
+
+</html>

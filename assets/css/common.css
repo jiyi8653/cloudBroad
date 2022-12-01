@@ -1,0 +1,184 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td,
+span,
+p {
+  margin: 0;
+  padding: 0;
+}
+img {
+  max-width: 100%;
+  border: none 0;
+  display: block;
+}
+ul li,
+nav li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+*{
+  margin:0;
+  padding: 0;
+}
+.container{
+  width: 1280px;
+  height: 720px;
+  position: absolute;
+  top:0;
+  left: 0;
+  background-image: url("../imgs/bg.png");
+}
+div {
+  text-decoration: none;
+  outline: none;
+  border: none;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+html {
+  width: 1280px;
+  height: 720px;
+}
+body {
+  width: 1280px;
+  height: 720px;
+  border: none;
+  /* position: relative; */
+  overflow: hidden;
+  background-repeat: no-repeat;
+  font: 14px/1.5 '\5FAE\8F6F\96C5\9ED1', '\9ED1\4F53', '\5B8B\4F53', arial, tahoma, sans-serif;
+  /* background-color: transparent; */
+  background: url("/assets/imgs/dance/gcw_bg_default.png") center no-repeat;
+  background-size: cover;
+}
+.white {
+  color: white;
+}
+.fre{
+  position: absolute;
+  overflow: hidden;
+  text-align: center;
+  border: 0;
+}
+.fre img{
+  width: 100%;
+  height: auto;
+}
+.color-red {
+  color: #f85858;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.none {
+  display: none !important;
+}
+
+.bg {
+  background-image: linear-gradient(to bottom right, #cededc, #011b34);
+}
+
+div {
+  position: absolute;
+}
+img {
+  border: 0;
+  
+}
+/* 隐藏机顶盒默认聚焦焦点效果 */
+a {
+  text-decoration: none;
+  outline: none;
+}
+.na {
+  color: #ffffff;
+}
+span {
+  color: white;
+}
+
+.relative {
+  position: relative;
+}
+
+.tag-item{
+  width: 100px;
+  right: 0;
+  top: 0px;
+}
+.tag-item img {
+  width: 100%;
+  /* height: 100%; */
+}
+.main-content-wrapper {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.unset{
+  background: unset;
+}
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+/* 首页焦点 */
+.main-content-wrapper .active,
+.quit-container .active {
+  transition: all 0.4s ease-out;
+  -webkit-transition: all 0.4s;
+  transform: scale(1.02);
+  -ms-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -webkit-transform: scale(1.02);
+  -o-transform: scale(1.02);
+}
+.active {
+  display: block;
+}
+.v-active{
+    /* border-radius: 14px; */
+    box-shadow: #4a82f0 0px 0px 0px 4px;
+    transition: all 0.4s ease-out;
+    -webkit-transition: all 0.4s;
+    transform: scale(1.02, 1.02);
+    border-color: #4a82f0 !important;
+}
+

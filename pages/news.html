@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../assets/css/common.css?v=3" rel="stylesheet" />
+  <link href="../assets/css/activity.css?v=3" rel="stylesheet" />
+  <script src="../assets/js/utils.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../assets/js/iptvKeyMap.js?v=4"></script>
+  <script src="../assets/js/player.js?v=2"></script>
+  <script src="../assets/js/jquery-1.js" type="text/javascript" charset="utf-8"></script>
+  <style>
+    .news-bg {
+      background-image: url('../assets/imgs/bgimg.jpg');
+    }
+    .active{
+      border: 0;
+      box-shadow: unset;
+    }
+    .debugInfo{
+      background-color: green;
+      color: #fff;
+      font-size: 50px;
+      position: fixed;
+      left: 100px;
+      top: 200px;
+    }
+	.line{
+		width: 10px;
+		height: 500px;
+		background-color: #555;
+		top: 150px;
+		left: 1170px;
+		z-index: 1;
+		border-radius: 10px;
+	}
+  </style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="news-bg">
+  <!-- 顶部菜单 -->
+  <img src="../assets/imgs/选择.png" id="xuanze" class="fre" style="width:298px;height:104px;top: 164px;left: 21px;"/>
+  <div style="width: 480px;height: auto;margin-top: 33px;">
+    <img src="../assets/imgs/yunkuandai.png" class="fre" id="fre0" style="width:290px;height:95px;left:25px;top:22px;"/>
+    <img src="../assets/imgs/yunzixun-selected.png" class="fre activity" id="fre1" style="width:290px;height:95px;left: 25px;top:135px;"/>
+    <img src="../assets/imgs/yunchanpin.png" class="fre" id="fre2" style="width:290px;height:95px;left: 25px;top:250px;"/>
+    <img src="../assets/imgs/huodongzhuanqu.png" class="fre" id="fre3" style="width:290px;height:95px;left: 25px;top:370px;"/>
+    <img src="../assets/imgs/huiyuanzhuanqu.png" class="fre" id="fre4" style="width:290px;height:95px;left: 25px;top:490px;"/>
+  </div>
+  <!-- 菜单选中效果 -->
+  <img src="../assets/imgs/news选择.png" id="newsxuanze" class="fre" style="width: 233px;height: 105px;top: 19px;left: 358px;"/>
+  <!-- 左边部分菜单 -->
+  <div id="leftcontent" style="position: relative;">
+	<!-- <img class="fre" src="../assets/imgs/news1.png" id="img1" style="top:199px;left:47px"/>
+	<img class="fre" src="../assets/imgs/news2.png" id="img2" style="top:319px;left:47px"/>
+	<img class="fre" src="../assets/imgs/news3.png" id="img3" style="top:435px;left:47px"/>
+	<img class="fre" src="../assets/imgs/news4.png" id="img4" style="top:551px;left:47px"/> -->
+  </div>
+  <!-- 右边内容 -->
+  <div id="rightcontent" style="position: relative;">
+  	<img class="fre" src="../assets/imgs/product/p11-1.png" id="newsContent" style="width: 759px;height:530px;left:357px;top:130px;padding: 25px;"/>
+	<video class="fre" autoplay src="../assets/imgs/product/p11-1.png" id="newsVideoContent" style="width: 759px;height:555px;left:357px;top:130px;"></video>
+	
+	<img class="fre line" id="line" src="../assets/imgs/line.jpg"/>
+	<img class="fre" id="pre" src="../assets/imgs/scroll.png" style="z-index: 1; top:165px;left: 1153px;">
+	<img class="fre" id="next" src="../assets/imgs/scroll-selected.png" style="z-index: 1;top:165px;left: 1153px;display: none;">
+  </div>
+
+  <div class="debugInfo" id="debugInfo"></div>
+</body>
+<script>
+
+var debugInfo="";
+
+var currentStep = 1;
+var stepcount = 3;
+var contentId = 0;
+var historyPath="";
+
+var newsResult=[
+        {
+            "id": null,
+            "cateId": 0,
+            "name": "../assets/imgs/news1.png",
+            "typeId": 0,
+            "desc": "../assets/imgs/news1-selected.png",
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/zx1-1.jpg","../assets/imgs/zixun/zx1-2.jpg"],
+            "videoUrl": "https://www.w3school.com.cn/i/movie.ogg"
+        },
+        {
+            "id": 2,
+            "cateId": 0,
+            "name": "../assets/imgs/news2.png",
+            "typeId": 0,
+            "desc": "../assets/imgs/news2-selected.png",
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/zx2-1.jpg","../assets/imgs/zixun/zx2-2.jpg"],
+            "videoUrl": null
+        },
+        {
+            "id": 3,
+            "cateId": 0,
+            "name": "../assets/imgs/news3.png",
+            "typeId": 0,
+            "desc": "../assets/imgs/news3-selected.png",
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/zx3-1.jpg","../assets/imgs/zixun/zx3-2.jpg","../assets/imgs/zixun/zx3-3.jpg"],
+            "videoUrl": null
+        },
+        {
+            "id": 4,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": "../assets/imgs/news4-selected.png",
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/zx4-1.jpg","../assets/imgs/zixun/zx4-2.jpg","../assets/imgs/zixun/zx4-3.jpg","../assets/imgs/zixun/zx4-4.jpg"],
+            "videoUrl": null
+        },
+        {
+            "id": 5,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/zx5-1.png","../assets/imgs/zixun/zx5-2.png","../assets/imgs/zixun/zx5-3.png","../assets/imgs/zixun/zx5-4.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 6,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 7,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 8,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 9,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 10,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 11,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 12,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
+            "videoUrl": null
+        },
+        {
+            "id": 13,
+            "cateId": 0,
+            "name": "../assets/imgs/news4.png",
+            "typeId": 0,
+            "desc": null,
+            "pageNum": 1,
+            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
+            "videoUrl": null
+        }
+    ];
+
+  window.onload = function () {
+    iptvKeyMap.index_news = 1;
+    iptvKeyMap.index_Keycode = 1;
+    resetNewsActive();
+    // setActive(0, 4);
+    document.getElementById('next').style.display="none";
+    document.getElementById('pre').style.display="block";
+	document.getElementById('xuanze').style.display="none";
+    document.getElementById('newsxuanze').style.display="block";
+	
+	historyPath = getQueryVariable("historyPath");
+	
+	initData();
+  };
+  //初始化数据
+  function initData(){
+	// var url = "list";
+	// var param = {
+	//   "pageNum":1,
+	//   "cateId":2
+	// }
+	// httpTools.httpPost(url,param,function(res){
+	// 	if(res.code==200){
+	// 	   // newsResult = res.data;
+	// 	   handleLeftResult(newsResult);
+	// 	}
+	// });
+	
+	handleLeftResult(newsResult);
+  }
+  function handleLeftResult(result){
+	  var temp = "";
+	  for(var i=0;i<result.length;i++){
+		  var obj = result[i];
+		  if(i<=3){
+			if(i==0){
+			   temp+='<img class="fre active" src="'+obj.desc+'" id="img'+(i+1)+'" style="top:23px;left:'+(360+216*i)+'px"/>'	
+			}else{
+			   temp+='<img class="fre" src="'+obj.name+'" id="img'+(i+1)+'" style="top:23px;left:'+(360+216*i)+'px"/>'
+			}  
+		    
+		  }else{
+			temp+='<img class="fre" src="'+obj.name+'" id="img'+(i+1)+'" style="top:23px;left:'+(360+216*i)+'px;display:none;"/>'
+		  }
+	  }
+	  document.getElementById("leftcontent").innerHTML = temp;
+	  //默认显示第一个资讯
+	  showContent(iptvKeyMap.index_news);
+  }
+  
+  
+
+  function action(){
+    try{
+    if(this.currentKeyCode == 1){
+		/*
+		if(iptvKeyMap.index_Keycode<=4){
+			document.getElementById('xuanze').style.display="block";
+			setActive(-1, 4);
+			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+		}else{
+			 if(isNext()||isLast()) return;
+			  if(iptvKeyMap.index_Keycode == 2 && iptvKeyMap.index_news <= 1){
+				// resetNewsActive();
+				// setActive(0, 3);
+				// updateNewsMenu(iptvKeyMap.index_Keycode);
+				// iptvKeyMap.index_news = 0;
+				// document.getElementById('xuanze').style.display="block";
+				// document.getElementById('newsxuanze').style.display="none";
+			  }
+			  if(iptvKeyMap.index_news > 1){
+				iptvKeyMap.index_news -= 1;
+				if(iptvKeyMap.index_news < 1) iptvKeyMap.index_news = 1;
+				
+				//下滑到超过第4个菜单时，将前面的菜单隐藏
+				if(iptvKeyMap.index_news >= 4) {
+				   var start = iptvKeyMap.index_news;
+				   var end = start - 4;
+				   document.getElementById('img'+(start+1)).style.display="none";
+				   //重新定义位置
+				   for(var i=(end+1);i<=start;i++){
+					   var toph = (120+116*(i-(end+1)));
+					   var csstemp = "top:"+toph+"px;left:940px;display:block";
+					  document.getElementById('img'+i).style= csstemp;
+				   }
+				}
+				resetNewsActive();
+				document.getElementById('img'+iptvKeyMap.index_news).style.display="block";
+				document.getElementById('img'+iptvKeyMap.index_news).className="fre active";
+				updateNewsMenu(iptvKeyMap.index_news);
+			  } 
+		}
+		*/
+		if((contentId>0 && isNewsActive(contentId)) || iptvKeyMap.index_news>0){
+			if(stepcount<=0){ return;}
+			if(currentStep==1){
+			   document.getElementById('newsxuanze').style.display="block";
+			   document.getElementById('next').style.display="none";
+			   document.getElementById('next').style.display="fre";
+			   document.getElementById('pre').style.display="block";
+			   document.getElementById('pre').style.display="fre";
+			   document.getElementById('line').style.display="block";
+			   updateNewsMenu(iptvKeyMap.index_news);
+			}else{
+				currentStep = currentStep - 1;
+				if(currentStep < 1) currentStep = 1;
+				document.getElementById('pre').style.display="none";
+				document.getElementById('pre').className="fre";   
+				document.getElementById('next').style.display="block";
+				document.getElementById('next').className="fre active";   
+				if(currentStep==1){
+					document.getElementById('next').style.top= "165px";
+				}
+				if(currentStep>1){
+					var ntop = ( currentStep / stepcount) * 500;
+					document.getElementById('next').style.top= ntop +"px";
+				}
+				//显示上一页内容
+				setRightImg(contentId,currentStep);
+			}
+		}else{
+			document.getElementById('xuanze').style.display="block";
+			setActive(-1, 4);
+			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+		}
+    }else if(this.currentKeyCode == 2){
+	  if((contentId>0 && isNewsActive(contentId)) || iptvKeyMap.index_news>0){
+		var obj = newsResult[contentId-1];
+		if(obj.typeId!=0){return; }
+		  
+		if(stepcount>0){
+			updateLeftMenu(contentId,"none");
+			
+			document.getElementById('pre').style.display="none";
+			document.getElementById('pre').className="fre";   
+			document.getElementById('next').style.display="block";
+			document.getElementById('next').className="fre active";   
+			if(currentStep>1){
+				var ntop = ( currentStep / stepcount) * 500;
+				document.getElementById('next').style.top= (ntop) +"px";
+				//显示下一页内容
+				setRightImg(contentId,currentStep);
+			}
+			currentStep += 1;
+			if(currentStep > stepcount) currentStep = stepcount;
+		}  
+	  }else{
+		  setActive(1, 4);
+		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+	  }
+	  /*	  
+	  if(iptvKeyMap.index_Keycode > 4){	
+		  if(isNext()||isLast()) return;
+		  if(iptvKeyMap.index_news >= 1){
+			 iptvKeyMap.index_news += 1;
+			// if(iptvKeyMap.index_news >4) iptvKeyMap.index_news = 4;
+			if(iptvKeyMap.index_news > newsResult.length) iptvKeyMap.index_news = newsResult.length;
+			//下滑到超过第4个菜单时，将前面的菜单隐藏
+			if(iptvKeyMap.index_news >4) {
+			   var start = iptvKeyMap.index_news;
+			   var end = start - 4;
+			   for(var i= 1;i<=end;i++ ){
+				  document.getElementById('img'+i).style.display="none";
+			   }
+			   //重新定义位置
+			   for(var i=(end+1);i<=start;i++){
+				   var toph = (120+116*(i-(end+1)));
+				   var csstemp = "top:"+toph+"px;left:940px";
+				  document.getElementById('img'+i).style= csstemp;
+			   }
+			}
+			resetNewsActive();
+			document.getElementById('img'+iptvKeyMap.index_news).style.display="block";
+			document.getElementById('img'+iptvKeyMap.index_news).className="fre active";
+			//width:278px;height:83px;
+			updateNewsMenu(iptvKeyMap.index_news); 
+		  }else{
+			if(iptvKeyMap.index_Keycode == 7){
+			  resetActive();
+			  document.getElementById('img1').className="fre active";
+			  iptvKeyMap.index_news += 1;
+			  updateNewsMenu(iptvKeyMap.index_news);
+			}
+		  }
+	  }else{
+		  setActive(1, 4);
+		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+	  }*/
+    }else if(this.currentKeyCode == 3){
+		if(hasNext()){
+			if(iptvKeyMap.index_news>1){
+				iptvKeyMap.index_news -= 1;
+				if(iptvKeyMap.index_news < 1) iptvKeyMap.index_news = 1;
+				resetNewsActive();
+				updateNewsMenu(iptvKeyMap.index_news);
+			}else if(iptvKeyMap.index_news==1){
+				document.getElementById("newsxuanze").style.display="none";
+				iptvKeyMap.index_Keycode=1;
+				iptvKeyMap.index_news=0;
+				resetNewsActive();
+				updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+			}
+		}	
+
+	  /* 
+	  if(iptvKeyMap.index_Keycode >=7){
+        resetNewsActive();
+        iptvKeyMap.index_news = 0;
+        iptvKeyMap.index_Keycode = 0;
+        updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+        document.getElementById('xuanze').style.display="block";
+        document.getElementById('newsxuanze').style.display="none";
+      }else{
+        if(contentId == 0) return;
+        //if(iptvKeyMap.index_news == 3 || iptvKeyMap.index_news == 4){
+          if(isNext()){
+            if(currentStep > 1){
+              document.getElementById('next').className="fre";
+              document.getElementById('next').src="../assets/imgs/product/下一页.png"
+              document.getElementById('next').style="width:129px;height:68px;top:622px;left:1090px;z-index:1000;";
+              document.getElementById('pre').style.display="block";
+              document.getElementById('pre').className="fre active";
+              document.getElementById('pre').src="../assets/imgs/product/上一页-选中.png"
+              document.getElementById('pre').style="width:129px;height:68px;top:622px;left:967px;z-index:1000;";
+            }else{
+              document.getElementById('next').className="fre";
+              document.getElementById('next').src="../assets/imgs/product/下一页.png"
+              document.getElementById('next').style="width:129px;height:68px;top:622px;left:1090px;z-index:1000;";
+              document.getElementById('pre').className="fre";
+              document.getElementById('pre').style="width:129px;height:68px;top:622px;left:967px;z-index:1000;display:none;";
+              resetNewsActive();
+              document.getElementById('img'+iptvKeyMap.index_news).className="fre active";
+              updateNewsMenu(iptvKeyMap.index_news);
+            }
+          }else if(isLast()){
+            document.getElementById('pre').className="fre";
+            document.getElementById('pre').src="../assets/imgs/product/上一页.png"
+            document.getElementById('pre').style="width:129px;height:68px;top:622px;left:967px;z-index:1000;";
+            resetNewsActive();
+            document.getElementById('img'+iptvKeyMap.index_news).className="fre active";
+            updateNewsMenu(iptvKeyMap.index_news);
+          }else{
+            resetNewsActive();
+            document.getElementById('img'+iptvKeyMap.index_news).className="fre active";
+            updateNewsMenu(iptvKeyMap.index_news);
+          }
+      } 
+	  */
+    }else if(this.currentKeyCode == 4){
+		iptvKeyMap.index_news += 1;
+		if(iptvKeyMap.index_news > 4) iptvKeyMap.index_news = 4;
+		resetNewsActive();
+		updateNewsMenu(iptvKeyMap.index_news);
+		/*
+      if(iptvKeyMap.index_news == 0){
+		iptvKeyMap.index_Keycode=7;
+		iptvKeyMap.index_news = 1;
+		updateNewsMenu(iptvKeyMap.index_news);
+	  }else{
+		  try{
+			if(iptvKeyMap.index_news == 0){
+			  resetNewsActive();
+			  setActive(1, 3);
+			  // updateMenu(iptvKeyMap.index_Keycode);
+			  iptvKeyMap.index_news = 0;
+			}else{
+			  if(contentId == 0) return;
+			  // if(iptvKeyMap.index_news == 1 || iptvKeyMap.index_news == 2 || iptvKeyMap.index_news == 3 || iptvKeyMap.index_news == 4){
+			   if(iptvKeyMap.index_news<= newsResult.length){  
+				if(currentStep>1){
+				  if(isLast()){
+					if(currentStep < stepcount){
+					  document.getElementById('pre').src="../assets/imgs/product/上一页.png"
+					  document.getElementById('pre').style="width:129px;height:68px;top:622px;left:967px;z-index:1000;";
+					  document.getElementById('next').src="../assets/imgs/product/下一页-选中.png"
+					  document.getElementById('next').style="width:129px;height:68px;top:622px;left:1090px;z-index:1000;";
+					  document.getElementById('next').className="fre active";
+					  updateLeftMenu(contentId,"none");
+					}
+				  }else{
+					if(isNext()) return;
+					document.getElementById('pre').src="../assets/imgs/product/上一页-选中.png"
+					document.getElementById('pre').className="fre active";
+					document.getElementById('pre').style="width:129px;height:68px;top:622px;left:967px;z-index:1000;";
+					updateLeftMenu(contentId,"none");
+				  }
+				}else{
+				  document.getElementById('next').src="../assets/imgs/product/下一页-选中.png"
+				  document.getElementById('next').style="width:129px;height:68px;top:622px;left:1081px;z-index:1000;";
+				  document.getElementById('next').className="fre active";
+				  updateLeftMenu(contentId,"none");
+				}
+			  }
+			}
+		  }catch(e){
+			debugInfo+=",eeeee";
+		  }
+	  }
+      */
+
+    }else if(this.currentKeyCode == 5){
+      if(iptvKeyMap.index_news == 0){
+        if(iptvKeyMap.index_Keycode == 0){
+          relocation('index.html');
+        }else if(iptvKeyMap.index_Keycode == 1){
+          relocation('news.html');
+        }else if(iptvKeyMap.index_Keycode == 2){
+          relocation('productlist.html');
+        }else if(iptvKeyMap.index_Keycode == 3){
+          relocation('activity.html');
+        }else if(iptvKeyMap.index_Keycode == 4){
+          relocation('member.html');
+        }
+      }
+	  /* else if(isNext()){
+        currentStep += 1;
+          if(currentStep > stepcount) currentStep = stepcount;
+          // document.getElementById('newsContent').src = "../assets/imgs/zixun/"+iptvKeyMap.index_news+"-"+currentStep+".png";
+		  document.getElementById('newsContent').src = newsResult[iptvKeyMap.index_news-1].image[currentStep-1];
+          document.getElementById('next').style.display="block";
+          document.getElementById('pre').src="../assets/imgs/product/上一页.png"
+          document.getElementById('pre').style="width:129px;height:68px;top:622px;left:967px;z-index:1000;";
+          if(currentStep == stepcount){
+            resetNewsActive();
+            document.getElementById('next').style.display="none";
+            document.getElementById('pre').style.display="block";
+            document.getElementById('pre').className="fre active";
+            document.getElementById('pre').src="../assets/imgs/product/上一页-选中.png"
+            document.getElementById('pre').style="width:129px;height:68px;top:622px;left:967px;z-index:1000;";
+          }
+      }else if(isLast()){
+        currentStep -= 1;
+        if(currentStep < 1) currentStep = 1;
+        // document.getElementById('newsContent').src = "../assets/imgs/zixun/"+iptvKeyMap.index_news+"-"+currentStep+".png";
+		document.getElementById('newsContent').src = newsResult[iptvKeyMap.index_news-1].image[currentStep-1]; 
+        document.getElementById('next').style.display="block";
+        document.getElementById('next').src="../assets/imgs/product/下一页.png"
+        document.getElementById('next').style="width:129px;height:68px;top:622px;left:1090px;z-index:1000;";
+        if(currentStep == 1){
+          resetNewsActive();
+          document.getElementById('pre').style.display="none";
+          document.getElementById('next').style.display="block";
+          document.getElementById('next').className="fre active";
+          document.getElementById('next').src="../assets/imgs/product/下一页-选中.png"
+          document.getElementById('next').style="width:129px;height:68px;top:622px;left:1090px;z-index:1000;";
+        }
+      } */
+	  
+	  else{
+		resetNewsActive();  
+        showContent(iptvKeyMap.index_news);
+      }
+
+      /* if(isNext()||isLast()){
+        if(currentStep < stepcount && currentStep >1){
+          document.getElementById('pre').style.display="block";
+          document.getElementById('next').style.display="block";
+        }
+        document.getElementById('newsxuanze').style.display="none";
+      } */
+
+    }else if(this.currentKeyCode == 0){
+	  if(historyPath=="productlist.html"){
+		 relocation('productlist.html?selectIndex=2');  
+	  }else{
+         relocation('index.html?selectIndex=2');
+	  }
+    }
+    }catch(e){
+      debugInfo += JSON.stringify(e);
+    }
+
+    //document.getElementById('debugInfo').innerText=debugInfo;
+    
+  }
+
+function setImgSrc(){
+	for(var i=0;i<newsResult.length;i++){
+	  var obj = newsResult[i];
+	  try{
+	     document.getElementById('img'+(i+1)).src=obj.name;
+	  }catch(e){
+	  	//TODO handle the exception
+	  }
+	}
+}
+function setImgClass(){
+	for(var i=0;i<newsResult.length;i++){
+	  var obj = newsResult[i];
+	  try{
+	     document.getElementById('img'+(i+1)).className = "fre";
+	  }catch(e){
+	  	//TODO handle the exception
+	  }
+	}
+}
+  function setRightImg(newsId,currentStep){
+	  var tempi = "zx"+newsId+"-"+(currentStep);
+	  var obj = newsResult[newsId-1].image;
+	  for(var i=0;i<obj.length;i++){
+	    var obb = obj[i];
+		var tobb = obb.substring(obb.lastIndexOf("/")+1,obb.lastIndexOf("."));
+	    if(tobb == tempi){
+			document.getElementById('newsContent').src = obb;
+			break;
+	    }
+	  }
+  }
+
+  function showContent(newsId){
+    currentStep = 1;
+	setImgSrc();
+	var obj = newsResult[newsId-1];
+	//TODO 将desc里的值作为选中后的图片
+	if(obj.desc){
+		document.getElementById('img'+newsId).src=obj.desc;
+	}
+	document.getElementById('img'+newsId).className="fre active";
+	document.getElementById('next').style.top="165px";
+	document.getElementById('pre').style.top="165px";
+	 if(obj.typeId==0){ //图片
+		document.getElementById('newsVideoContent').style.display="none";
+		document.getElementById('newsContent').style.display = "block";
+		setRightImg(newsId,currentStep);
+		
+		document.getElementById('next').style.display="none";
+		document.getElementById('next').style.display="fre";
+		document.getElementById('pre').style.display="block";
+		document.getElementById('pre').style.display="fre";
+		document.getElementById('line').style.display="block";
+
+		contentId = newsId;
+		stepcount = obj.image.length;
+	 }else{ //video
+	    document.getElementById('newsContent').style.display = "none";
+		document.getElementById('newsVideoContent').style.display="block";
+		document.getElementById('newsVideoContent').src = obj.videoUrl; 
+		
+		document.getElementById('next').style.display="none";
+		document.getElementById('next').style.display="fre";
+		document.getElementById('pre').style.display="none";
+		document.getElementById('pre').style.display="fre";
+		document.getElementById('line').style.display="none";
+		
+		contentId = newsId;
+		stepcount = 1;
+	 }
+  }
+
+    function updateLeftMenu(newsId,styledisplay){
+      document.getElementById('newsxuanze').style.display=styledisplay;
+	  setImgSrc();
+	  document.getElementById('img'+newsId).src= newsResult[newsId-1].desc;
+	  iptvKeyMap.index_news = contentId;
+    }
+  function setTopImgClass(){
+	  document.getElementById('fre0').className = "fre";
+	  document.getElementById('fre1').className = "fre";
+	  document.getElementById('fre2').className = "fre";
+	  document.getElementById('fre3').className = "fre";
+  }
+  function resetNewsActive(){
+    // setTopImgClass();
+	
+	setImgClass();
+    document.getElementById('next').className = "fre";
+    document.getElementById('pre').className = "fre";
+  }
+  function updateNewsMenu(indexnews){
+    document.getElementById('newsxuanze').style.display="block";
+    document.getElementById('xuanze').style.display="none";
+    if(indexnews == 1){
+      document.getElementById('newsxuanze').style.left="356px";
+    }else if(indexnews == 2){
+      document.getElementById('newsxuanze').style.left="572px";
+    }else if(indexnews == 3){
+      document.getElementById('newsxuanze').style.left="788px";
+    }else if(indexnews == 4){
+      document.getElementById('newsxuanze').style.left="1004px";
+    }
+  }
+  function isNext(){
+    return document.getElementById('next').className=="fre active";
+  }
+  function hasNext(){
+    return document.getElementById('pre').style.display!="none";
+  }
+  function isLast(){
+    return document.getElementById('pre').className=="fre active";
+  }
+  function isNewsActive(index){
+    return document.getElementById('img'+index).className=="fre active";
+  }
+
+  function resetButton(type){
+    document.getElementById('pre').src="../assets/imgs/product/上一页.png"
+    document.getElementById('pre').style="width:129px;height:68px;top:622px;left:967p x;z-index:1000;";
+    document.getElementById('pre').className="fre";
+    document.getElementById('pre').style.display = "none";
+    document.getElementById('next').src="../assets/imgs/product/下一页.png"
+    document.getElementById('next').style="width:129px;height:68px;top:622px;left:1090px;z-index:1000;";
+    document.getElementById('next').className="fre";
+    document.getElementById('next').style.display = "none";
+  }
+  
+  
+  function updateLeftMenuStyle(homeIndex){
+  	  var base = 32;
+  	  var tops = [(base+19),(base+132),(base+247),(base+367),(base+487)];
+      try {
+  		document.getElementById('xuanze').style.display="block";
+        document.getElementById('xuanze').style.top=tops[homeIndex]+"px";
+      } catch (error) {
+          
+      }
+  }
+</script>
+
+</html>

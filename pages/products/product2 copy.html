@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="page-view-size" content="1280*720" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云宽带</title>
+  <link href="../../assets/css/common.css?v=1" rel="stylesheet" />
+  <link href="../../assets/css/activity.css?v=1" rel="stylesheet" />
+  <script src="../../assets/js/iptvKeyMap.js?v=1"></script>
+  <script src="../../assets/js/player.js"></script>
+
+  <style>
+    .video-bg {
+      background-image: url('../../assets/imgs/productbgimg.png');
+    }
+  </style>
+</head>
+
+<body bgcolor="transparent" width="1280" height="720" style="z-index: -1;" class="video-bg">
+
+
+  <img src="../../assets/imgs/product/直播宽带-选中.png" class="fre" id="fre0" style="width:235px;height:65px;top:123px;left:33px" />
+  <img src="../../assets/imgs/youxijiasu/产品介绍.png" class="fre" id="fre1" style="width:150px;height:65px;top:258px;left:33px" />
+  <img src="../../assets/imgs/youxijiasu/使用说明.png" class="fre" id="fre2" style="width:115px;height:65px;top:395px;left:33px" />
+  <img src="../../assets/imgs/youxijiasu/使用说明.png" class="fre" style="width:151px;height:65px;top:531px;left:33px" />
+
+  <div class="fre" id="contentbg" style="width: 942px;height:570px;left:291px;top:74px;background-color:#ffffff;border-radius: 10px;"></div>
+  <!-- 介绍 -->
+  <img src="../../assets/imgs/product/配图p2.png" id="img1" class="fre" style="width: 860px;height:404px;left:332px;top:103px;"/>
+  <img src="../../assets/imgs/product/下一页-选中.png" class="fre" id="img3" style="width:128.994px;height:67.998px;top:581px;left:1106px" />
+  <img src="../../assets/imgs/product/上一页-选中.png" class="fre" id="img9" style="width:128.994px;height:67.998px;top:581px;left:993px" />
+  <!-- 订购 -->
+  <img src="../../assets/imgs/product/二维码配图p1.png" id="img10" class="fre" style="width: 860px;height:508px;left:332px;top:103px;"/>
+  
+  <!-- 使用说用 -->
+  <img src="../../assets/imgs/product/步骤1p1.png" id="img11" class="fre" style="width: 817px;height:389px;left:386px;top:113px;"/>
+  <img src="../../assets/imgs/product/上一页-选中.png" class="fre" id="img19" style="width:128.994px;height:67.998px;top:581px;left:993px" />
+  <img src="../../assets/imgs/product/下一页-选中.png" class="fre" id="img14" style="width:128.994px;height:67.998px;top:581px;left:1106px" />
+ 
+  <div class="video" id="video" data="rtsp://10.192.78.200/88888888/16/20220908/268958790/268958790.mpg"></div>
+
+</body>
+<script>
+  var selectedIndex = 0;
+  var fre0img = "../../assets/imgs/product/直播宽带.png";
+  var fre1img = "../../assets/imgs/youxijiasu/产品介绍.png";
+  var fre2img = "../../assets/imgs/youxijiasu/使用说明.png";
+  var fre3img = "../../assets/imgs/youxijiasu/使用说明.png";
+
+  var fre0imgselected = "../../assets/imgs/product/直播宽带-选中.png";
+  var fre1imgselected = "../../assets/imgs/product/产品介绍-选中.png";
+  var fre2imgselected = "../../assets/imgs/product/使用说明-选中.png";
+  var fre3imgselected = "../../assets/imgs/product/使用说明-选中.png";
+
+  var currentstep = 1;
+  var currentactive = 0;
+
+  window.onload = function () {
+    hideAll();
+    iptvKeyMap.index_Keycode = 0;
+    document.getElementById('fre0').className = "fre active";
+    playProductVideo(document.getElementById('video').getAttribute('data'));
+  };
+
+  function action(){
+      if(currentKeyCode == 1){
+        iptvKeyMap.index_Keycode -= 1;
+        if(iptvKeyMap.index_Keycode < 0) iptvKeyMap.index_Keycode = 0;
+        document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+        currentactive = 0;
+      }else if(currentKeyCode == 2){
+        iptvKeyMap.index_Keycode += 1;
+        if(iptvKeyMap.index_Keycode > 2) iptvKeyMap.index_Keycode = 2;
+        document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+        currentactive = 0;
+      }else if(currentKeyCode == 3){
+        if(currentactive == 0) {
+          iptvKeyMap.index_Keycode = selectedIndex;
+          document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+          currentactive = 0;
+          return;
+        }
+        if(iptvKeyMap.index_Keycode == 1){
+          if(isNext()){
+            if(currentstep>1){
+              document.getElementById('img3').className = "fre";
+              document.getElementById('img9').className = "fre active";
+            }else{
+              document.getElementById('img3').className = "fre";
+              document.getElementById('img9').className = "fre";
+              iptvKeyMap.index_Keycode = selectedIndex;
+              document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+              currentactive = 0;
+            }
+          }else if(isLast()){
+            document.getElementById('img3').className = "fre";
+            document.getElementById('img9').className = "fre";
+            iptvKeyMap.index_Keycode = selectedIndex;
+            document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+            currentactive = 0;
+          }else{
+            document.getElementById('img3').className = "fre";
+            document.getElementById('img9').className = "fre active";
+          }
+        }
+        if(iptvKeyMap.index_Keycode == 2){
+          if(isInsNext()){
+            if(currentstep>1){
+              document.getElementById('img14').className = "fre";
+              document.getElementById('img19').className = "fre active";
+            }else{
+              document.getElementById('img14').className = "fre";
+              document.getElementById('img19').className = "fre";
+              iptvKeyMap.index_Keycode = selectedIndex;
+              document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+              currentactive = 0;
+            }
+          }else if(isInsLast()){
+            document.getElementById('img14').className = "fre";
+            document.getElementById('img19').className = "fre";
+            iptvKeyMap.index_Keycode = selectedIndex;
+            document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+            currentactive = 0;
+          }else{
+            document.getElementById('img14').className = "fre";
+            document.getElementById('img19').className = "fre active";
+          }
+        }
+
+        return;
+      }else if(currentKeyCode == 4){
+        if(iptvKeyMap.index_Keycode == 1){
+          if(currentactive == 1){
+            document.getElementById('img3').className = "fre active";
+            document.getElementById('img9').className = "fre";
+          }else{
+            iptvKeyMap.index_Keycode = selectedIndex;
+            document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+            currentactive = 0;
+            if(iptvKeyMap.index_Keycode == 1){
+              document.getElementById('img3').className="fre active";
+              currentactive = 1;
+              document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre";
+            }
+          }
+        }
+        if(iptvKeyMap.index_Keycode == 2){
+          if(currentactive == 1){
+            document.getElementById('img14').className = "fre active";
+            document.getElementById('img19').className = "fre";
+          }else{
+            iptvKeyMap.index_Keycode = selectedIndex;
+            document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+            currentactive = 0;
+            if(iptvKeyMap.index_Keycode == 2){
+              document.getElementById('img14').className="fre active";
+              currentactive = 1;
+            }
+          }
+        }
+        return;
+      }else if(currentKeyCode == 5){
+        if(currentactive == 0) {
+          iptvKeyMap.index_Keycode = selectedIndex;
+          document.getElementById('fre'+iptvKeyMap.index_Keycode).className = "fre active";
+          currentactive = 0;
+        }
+        if(iptvKeyMap.index_Keycode == 1){
+          if(currentactive == 1){
+            if(isNext()){
+              currentstep += 1;
+            }else{
+              currentstep -= 1;
+            }
+            document.getElementById('img9').style.display="block";
+            if(currentstep <= 1) {
+              currentstep = 1;
+              document.getElementById('img9').className="fre";
+              document.getElementById('img9').style.display="none";
+              document.getElementById('img3').className="fre active";
+            }
+            if(currentstep >= 4) currentstep = 4;
+            document.getElementById('img1').src="../../assets/imgs/product/p2-"+currentstep+".png";
+          }
+          return;
+        }
+
+        if(iptvKeyMap.index_Keycode == 2){
+          if(currentactive == 1){
+            if(isInsNext()){
+              currentstep += 1;
+            }else{
+              currentstep -= 1;
+            }
+            document.getElementById('img19').style.display="block";
+            if(currentstep <= 1) {
+              currentstep = 1;
+              document.getElementById('img19').className="fre";
+              document.getElementById('img19').style.display="none";
+              document.getElementById('img14').className="fre active";
+            }
+            if(currentstep >= 4) currentstep = 4;
+            document.getElementById('img11').src="../../assets/imgs/product/i2-"+currentstep+".png";
+          }
+          return;
+        }
+
+      }
+      if(iptvKeyMap.index_Keycode == 0){
+        playProductVideo(document.getElementById('video').getAttribute('data'));
+        selectedIndex = 0;
+        updateMenu(0);
+      }else if(iptvKeyMap.index_Keycode == 1){
+        WindowPlayer.destory();
+        selectedIndex = 1;
+        updateMenu(1);
+      }else if(iptvKeyMap.index_Keycode == 2){
+        WindowPlayer.destory();
+        selectedIndex = 2;
+        updateMenu(2);
+      }
+      // else if(iptvKeyMap.index_Keycode == 3){
+      //   playProductVideo(document.getElementById('video').getAttribute('data'));
+      //   selectedIndex = 3;
+      //   updateMenu(3);
+      // }
+    
+    if(currentKeyCode == 0){
+      relocation('../productlist.html?selectIndex=2');
+    }
+  }
+
+  function playProductVideo(url){
+    WindowPlayer.initParam(332, 104, 860, 510);
+    WindowPlayer.setSingleUrl(url);
+    WindowPlayer.playFromStart();
+  }
+
+  function updateMenu(index){
+    switch(index){
+      case 0:
+      document.getElementById('fre0').src=fre0imgselected;
+      document.getElementById('fre0').style.width="235px";
+      document.getElementById('fre1').src=fre1img;
+      document.getElementById('fre1').style.width="150px";
+      document.getElementById('fre2').src=fre2img;
+      document.getElementById('fre2').style.width="150px";
+      break;
+      case 1:
+      document.getElementById('fre0').src=fre0img;
+      document.getElementById('fre0').style.width="150px";
+      document.getElementById('fre1').src=fre1imgselected;
+      document.getElementById('fre1').style.width="235px";
+      document.getElementById('fre2').src=fre2img;
+      document.getElementById('fre2').style.width="150px";
+      break;
+      case 2:
+      document.getElementById('fre0').src=fre0img;
+      document.getElementById('fre0').style.width="150px";
+      document.getElementById('fre1').src=fre1img;
+      document.getElementById('fre1').style.width="150px";
+      document.getElementById('fre2').src=fre2imgselected;
+      document.getElementById('fre2').style.width="235px";
+      break;
+      // case 3:
+      // document.getElementById('fre0').src=fre0img;
+      // document.getElementById('fre0').style.width="150px";
+      // document.getElementById('fre1').src=fre1img;
+      // document.getElementById('fre1').style.width="150px";
+      // document.getElementById('fre2').src=fre2img;
+      // document.getElementById('fre2').style.width="115px";
+      // document.getElementById('fre3').src=fre3imgselected;
+      // document.getElementById('fre3').style.width="235px";
+      // break;
+    }
+
+    hideAll();
+    if(index == 1){
+      showContent(1,8)
+    }else if(index == 2){
+      showContent(11,18)
+    }
+
+  }
+
+  function hideAll(){
+    for(var i = 1; i <= 19; i++){
+      if(document.getElementById('img'+i)){
+        document.getElementById('img'+i).style.display="none";
+      }
+    }
+    document.getElementById('contentbg').style.display="none";
+    document.getElementById('img3').className="fre";
+    currentstep = 1;
+  }
+
+  function showContent(f, t){
+    for(var i=f; i<=t;i++){
+      if(document.getElementById('img'+i)){
+        document.getElementById('img'+i).style.display = "block";
+      }
+    }
+    document.getElementById('contentbg').style.display="block";
+  }
+
+  function isNext(){
+    return document.getElementById('img3').className == "fre active";
+  }
+  function isLast(){
+    return document.getElementById('img9').className == "fre active";
+  }
+  function isInsNext(){
+    return document.getElementById('img14').className == "fre active";
+  }
+  function isInsLast(){
+    return document.getElementById('img19').className == "fre active";
+  }
+  
+</script>
+
+</html>
+
