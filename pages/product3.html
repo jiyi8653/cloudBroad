@@ -258,14 +258,16 @@ function handleProResult(result){
           updateSelectProductMenu(iptvKeyMap.selectedIndex);
         }
       }else if(currentKeyCode == 4){
-		document.getElementById('newsxuanze0').style.display="none";
+		// document.getElementById('newsxuanze0').style.display="none";
 		if(iptvKeyMap.selectedIndex == 0){
 		   document.getElementById('video0').className="fre v-active";
+		   document.getElementById('newsxuanze0').style.display="none";
 		}
         if(!(hasNext()||hasLast() || hasTuwen())) return;
 		if(hasTuwen()){
 			document.getElementById('protuwen').src = "../assets/imgs/product/tuwenbtn-selected.png";
 			document.getElementById('protuwen').className="fre active";
+			document.getElementById('newsxuanze0').style.display="none";
         }else if(iptvKeyMap.selectedIndex >= 1 || !hasTuwen()){
           if(currentStep == 1){
             resetNewsActive();
@@ -285,6 +287,7 @@ function handleProResult(result){
           document.getElementById('back').src = "../assets/imgs/huodongback.png";
           document.getElementById('back').className = "fre";
 		  
+		  document.getElementById('newsxuanze0').style.display="none";
           // document.getElementById('newsxuanze1').style.display="none";
           // document.getElementById('newsxuanze2').style.display="none";
         }else{
