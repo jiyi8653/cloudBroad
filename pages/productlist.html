@@ -84,11 +84,13 @@
 
   function action(){
 	  if(this.currentKeyCode==1){
+		  if(iptvKeyMap.index_Keycode>=5){return;}
 		//左边菜单选中
 		document.getElementById('xuanze').style.display="block";
 		setActive(-1, 4);
 		updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 	  }else if(this.currentKeyCode == 2){
+		  if(iptvKeyMap.index_Keycode>=5){return;}
 		if(iptvKeyMap.index_Keycode==5){
 		  setActive(-4, 4);	  
 		}else{
@@ -120,6 +122,7 @@
 		lun.stopNowInterval();
 		if(iptvKeyMap.index_Keycode<=4){
 			iptvKeyMap.index_Keycode=5;
+			document.getElementById('xuanze').style.display="none";
 		    document.getElementById("butL").className = "v-active"
 		}else{
 			setNewActive(1,7);

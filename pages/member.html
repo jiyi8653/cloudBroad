@@ -70,7 +70,10 @@ window.onload = function(){
 
   function action(){
       if(currentKeyCode == 1){
-		if(iptvKeyMap.index_Keycode==5){return; }	  
+		if(iptvKeyMap.index_Keycode==5 || iptvKeyMap.index_Keycode==6){
+			document.getElementById('fre'+iptvKeyMap.index_Keycode).className="fre video v-active";
+			return; 
+		}	  
 		if(iptvKeyMap.index_Keycode==7){
 		  	setActive(-2, 7); 
 		    updateRightContentStyle(iptvKeyMap.index_Keycode);
@@ -80,6 +83,10 @@ window.onload = function(){
 			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 		}
       }else if(currentKeyCode == 2){
+		  if(iptvKeyMap.index_Keycode>=7){
+		  	document.getElementById('fre'+iptvKeyMap.index_Keycode).className="fre video v-active";
+		     return;
+		  }
 		if(iptvKeyMap.index_Keycode==5){
 			setActive(2, 7); 
 		    updateRightContentStyle(iptvKeyMap.index_Keycode);
@@ -91,12 +98,12 @@ window.onload = function(){
 			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 		}  
       }else if(currentKeyCode == 3){
-		  if(iptvKeyMap.index_Keycode==0){return; }	
+		  if(iptvKeyMap.index_Keycode<=4){return; }	
 		  if(iptvKeyMap.index_Keycode==5){
 			setActive(-1, 4);
 			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 		  }else if(iptvKeyMap.index_Keycode==7){
-			setActive(-7, 4);
+			setActive(-3, 4);
 			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 		  }else{
 			  //右边内容 5~7之间

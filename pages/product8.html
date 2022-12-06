@@ -183,11 +183,11 @@ function handleProResult(result){
 		try{
 			var obj = result[i];
 			if(i==0){
-				temp+='<img class="fre" src="'+obj.desc+'" id="fre'+i+'" style="top:'+(0)+'px;left:13px"/>';
+				temp+='<img class="fre" src="'+obj.desc+'" id="fre'+i+'" style="top:'+(18)+'px;left:33px"/>';
 			}else{//除第一个和二维码
 			   //设置图片步数
 			   steps.push(obj.image.length);
-			   temp+='<img class="fre" src="'+obj.name+'" id="fre'+i+'" style="top:'+(80+85*(i-1))+'px;left:13px"/>';
+			   temp+='<img class="fre" src="'+obj.name+'" id="fre'+i+'" style="top:'+(98+85*(i-1))+'px;left:33px"/>';
 			}
 			//获得商品介绍video的链接
 			if(obj.videoUrl){

@@ -91,12 +91,12 @@
   function action(){
     if(this.currentKeyCode == 1){
 	  if(iptvKeyMap.index_Keycode==5){
-		return;  
+		document.getElementById('fre'+iptvKeyMap.index_Keycode).className="fre video v-active";
+		return false;  
 	  }	  
 	  //选中视频	
       if(iptvKeyMap.index_Keycode==6){
-      	setActive(-6, 9); 
-        updateLeftMenuStyle(iptvKeyMap.index_Keycode);
+      	document.getElementById('fre'+iptvKeyMap.index_Keycode).className="fre video v-active";
       }else if(iptvKeyMap.index_Keycode==7){
       	setActive(-2, 9); 
 	    updateRightContentStyle(iptvKeyMap.index_Keycode);
@@ -116,6 +116,7 @@
 	  }
     }else if(this.currentKeyCode == 2){
 		if(iptvKeyMap.index_Keycode>=7){
+			document.getElementById('fre'+iptvKeyMap.index_Keycode).className="fre video v-active";
 		   return;
 		}	
 		if(iptvKeyMap.index_Keycode==5){

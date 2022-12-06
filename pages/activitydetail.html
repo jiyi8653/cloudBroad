@@ -36,7 +36,7 @@
 	<div id="rightcontent" style="position: relative;">
 		<img id="fre5" src="../assets/imgs/active1.jpg" class="fre" style="width: 880px;height: 660px;left: 355px;top: 30px;display: none;"/>
 	</div>
-	<img id="back" src="../assets/imgs/huodongback-selected.png" class="fre" style="top:30px;left: 1100px;" >
+	<img id="back" src="../assets/imgs/huodongback-selected.png" class="fre active" style="top:30px;left: 1100px;" >
 
 	<!--音量-->
 	<img src="../assets/resources/imgs/vmute.png" class="fre complayer sound-bar" id="mute-bar" style="left:20px;top:140px;display: none;z-index:1000;" />
@@ -67,10 +67,12 @@ window.onload = function(){
 
   function action(){
       if(currentKeyCode == 1){
+		  if(isBack()){return;}
 		  document.getElementById('xuanze').style.display="block";
 		  setActive(-1, 4);
 		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
       }else if(currentKeyCode == 2){
+		  if(isBack()){return;}
 		  setActive(1, 4);
 		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
       }else if(currentKeyCode == 3){
@@ -79,6 +81,7 @@ window.onload = function(){
 		  iptvKeyMap.index_Keycode = 3;
 		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
       }else if(currentKeyCode == 4){
+		  if(isBack()){return;}
 		  document.getElementById('xuanze').style.display="none";
 		  document.getElementById("back").className = "fre active";
 		  document.getElementById("back").src = "../assets/imgs/huodongback-selected.png";
@@ -106,6 +109,13 @@ window.onload = function(){
     	relocation('activity.html?selectedIndex='+active);	
     }
   }
+  
+ function isBack(){
+   return document.getElementById('back').className=="fre active";
+ }
+ function hasBack(){
+   return document.getElementById('back').style.display!="none";
+ }
   
   function updateLeftMenuStyle(homeIndex){
 	  var base = 32;
