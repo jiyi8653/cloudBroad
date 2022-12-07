@@ -185,11 +185,20 @@ function handleProResult(result){
 			updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 		  }
       }else if(currentKeyCode == 4){
+		  if(hasNext()){return;}
 		  if(!(hasNext()||hasLast() || hasTuwen())) return;
 		  if(hasTuwen()){
 		     document.getElementById('protuwen').src = "../assets/imgs/memhuodong-selected.png";
 		     document.getElementById('protuwen').className="fre active";
 			 document.getElementById('xuanze').style.display="none";
+		  }else if(isBack()){
+			  document.getElementById('pback').src = "../assets/imgs/memback.png";
+			  document.getElementById('pback').className="fre"; 
+			  document.getElementById('pronext').style.display="block";
+			  document.getElementById('pronext').className="fre active";
+			  
+			  document.getElementById('propre').style.display="none";
+			  document.getElementById('propre').className="fre";
 		  }else if(hasLast() || hasNext()){
 			document.getElementById('pback').src = "../assets/imgs/memback-selected.png";
 			document.getElementById('pback').className="fre active"; 

@@ -222,12 +222,14 @@ function handleProResult(result){
   function action(){
       if(currentKeyCode == 1){
 		  if(iptvKeyMap.selectedIndex == 0){return;}
+		  if(isBack()){return;}  
         if(isNext() || isLast() || isTuwen()) return;
         iptvKeyMap.selectedIndex -= 1;
 		resetDescFlag(iptvKeyMap.selectedIndex);
         if(iptvKeyMap.selectedIndex < 0) iptvKeyMap.selectedIndex = 0;
         updateSelectProductMenu(iptvKeyMap.selectedIndex);
       }else if(currentKeyCode == 2){
+		  if(isBack()){return;}  
         if(isNext() || isLast() || isTuwen()) return;
         iptvKeyMap.selectedIndex += 1;
 		resetDescFlag(iptvKeyMap.selectedIndex);
@@ -307,6 +309,25 @@ function handleProResult(result){
 			  
 			  document.getElementById('fre'+iptvKeyMap.selectedIndex).className = "fre active";
 			  updateSelectProductMenu(iptvKeyMap.selectedIndex);
+			  document.getElementById('newsxuanze0').style.display="none";
+			  
+			  contentId = iptvKeyMap.selectedIndex;
+			  //隐藏上一页，下一页，右侧内容区域
+			  document.getElementById('pronext').style.display="none";
+			  document.getElementById('propre').style.display="none";
+			  document.getElementById('img1').style.display="none";
+			  //切换播放视频的小背景
+			  document.body.className = "video-bg2";
+			  //显示图文按钮
+			  document.getElementById('protuwen').style.display="block";
+			  document.getElementById('protuwen').className = "fre active";
+			  // document.getElementById('protuwen').src = "../assets/imgs/product/tuwenbtn.png";
+			  //播放视频
+			  document.getElementById('video'+iptvKeyMap.selectedIndex).style.display="block";
+			  playProductVideo(document.getElementById('video'+iptvKeyMap.selectedIndex).getAttribute('data'),iptvKeyMap.selectedIndex); 
+			  
+			  currentStep = 1;
+			  return;
 		  }
 		//获得图片步数  
 		stepcount = steps[iptvKeyMap.selectedIndex-1];

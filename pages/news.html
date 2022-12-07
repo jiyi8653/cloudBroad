@@ -313,7 +313,7 @@ var newsResult=[
 			   document.getElementById('next').style.display="none";
 			   document.getElementById('next').style.display="fre";
 			   document.getElementById('pre').style.display="block";
-			   document.getElementById('pre').style.display="fre";
+			   document.getElementById('pre').style.display="fre active";
 			   document.getElementById('line').style.display="block";
 			   updateNewsMenu(iptvKeyMap.index_news);
 			}else{
@@ -322,7 +322,7 @@ var newsResult=[
 				document.getElementById('pre').style.display="none";
 				document.getElementById('pre').className="fre";   
 				document.getElementById('next').style.display="block";
-				document.getElementById('next').className="fre active";   
+				document.getElementById('next').className="fre";   
 				if(currentStep==1){
 					document.getElementById('next').style.top= "165px";
 				}
@@ -402,7 +402,7 @@ var newsResult=[
 		  updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 	  }*/
     }else if(this.currentKeyCode == 3){
-		if(hasNext()){
+		if(hasLast()){
 			if(iptvKeyMap.index_news>1){
 				iptvKeyMap.index_news -= 1;
 				if(iptvKeyMap.index_news < 1) iptvKeyMap.index_news = 1;
@@ -462,6 +462,7 @@ var newsResult=[
       } 
 	  */
     }else if(this.currentKeyCode == 4){
+		if(hasNext()){return;}
 		iptvKeyMap.index_news += 1;
 		if(iptvKeyMap.index_news > 4) iptvKeyMap.index_news = 4;
 		resetNewsActive();
@@ -698,10 +699,13 @@ function setImgClass(){
     return document.getElementById('next').className=="fre active";
   }
   function hasNext(){
-    return document.getElementById('pre').style.display!="none";
+    return document.getElementById('next').style.display!="none";
   }
   function isLast(){
     return document.getElementById('pre').className=="fre active";
+  }
+  function hasLast(){
+    return document.getElementById('pre').style.display!="none";
   }
   function isNewsActive(index){
     return document.getElementById('img'+index).className=="fre active";
