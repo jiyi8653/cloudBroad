@@ -98,6 +98,7 @@
 		}
 		updateLeftMenuStyle(iptvKeyMap.index_Keycode);
       }else if(this.currentKeyCode==3){
+		  if(iptvKeyMap.index_Keycode<=4){return;}
 		resetImgClass();
 		setNewActive(-1, 7);
 		if(iptvKeyMap.index_Keycode>=5){
