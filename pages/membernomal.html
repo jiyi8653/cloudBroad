@@ -62,7 +62,7 @@
 		<!-- 返回 -->
 		<img src="../assets/imgs/memback.png" class="fre" id="pback" style="width:336px;height:101px;top:590px;left:360px;z-index:1000;display: none;" />
 		<!-- 查看活动按钮 -->
-		<img src="../assets/imgs/memhuodong-selected.png" class="fre" id="protuwen" style="width:273px;height:100px;top:544px;left:925px;z-index:1000;" />
+		<img src="../assets/imgs/memhuodong-selected.png" class="fre active" id="protuwen" style="width:273px;height:100px;top:544px;left:925px;z-index:1000;" />
 	</div>
 
 	
@@ -137,7 +137,8 @@ function handleProResult(result){
 
   function action(){
       if(currentKeyCode == 1){
-		 if(hasImg2()){
+		  if(isBack()){return;}
+		 if(isNext()){
 			 currentStep = currentStep - 1;
 			 if(currentStep < 1) currentStep = 1;
 			 
@@ -155,7 +156,8 @@ function handleProResult(result){
 		 } 
 		 
       }else if(currentKeyCode == 2){
-		 if(hasImg2()){
+		  if(isBack()){return;}
+		 if(isNext()){
 			currentStep += 1;
 			if(currentStep > stepcount) currentStep = stepcount;
 			
@@ -171,11 +173,18 @@ function handleProResult(result){
 		    updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 		 } 
       }else if(currentKeyCode == 3){
-		  if(hasBack()){
+		  if(isBack()){
+			document.getElementById('pback').src = "../assets/imgs/memback.png";
+			document.getElementById('pback').className="fre"; 
+			  
+			iptvKeyMap.index_Keycode = 4;
+			updateLeftMenuStyle(iptvKeyMap.index_Keycode);  
+		  }else if(hasBack()){
 			document.getElementById('pback').src = "../assets/imgs/memback-selected.png";
 			document.getElementById('pback').className="fre active"; 
 			
 			document.getElementById('pronext').style.display="none";
+			document.getElementById('pronext').className="fre";  
 			document.getElementById('propre').style.display="block";
 		  }else{
 			document.getElementById('protuwen').src = "../assets/imgs/memhuodong.png";
@@ -200,12 +209,21 @@ function handleProResult(result){
 			  document.getElementById('propre').style.display="none";
 			  document.getElementById('propre').className="fre";
 		  }else if(hasLast() || hasNext()){
-			document.getElementById('pback').src = "../assets/imgs/memback-selected.png";
-			document.getElementById('pback').className="fre active"; 
-			document.getElementById('line').style.display="block"; 
-			// document.getElementById('pronext').src = "../assets/imgs/product/下一页.png";
-			// document.getElementById('propre').src = "../assets/imgs/product/上一页.png";
-			document.getElementById('pronext').className="fre";
+			  // debugger
+			// document.getElementById('pback').src = "../assets/imgs/memback-selected.png";
+			// document.getElementById('pback').className="fre active"; 
+			// document.getElementById('line').style.display="block"; 
+			// // document.getElementById('pronext').src = "../assets/imgs/product/下一页.png";
+			// // document.getElementById('propre').src = "../assets/imgs/product/上一页.png";
+			// document.getElementById('pronext').className="fre";
+			// document.getElementById('propre').className="fre";
+			document.getElementById('xuanze').style.display="none";
+			document.getElementById('pback').src = "../assets/imgs/memback.png";
+			document.getElementById('pback').className="fre"; 
+			document.getElementById('pronext').style.display="block";
+			document.getElementById('pronext').className="fre active";
+			
+			document.getElementById('propre').style.display="none";
 			document.getElementById('propre').className="fre";
 		  }else if(iptvKeyMap.index_Keycode >= 1 || !hasTuwen()){
 			  if(currentStep == 1){
@@ -231,6 +249,8 @@ function handleProResult(result){
 			
 			document.getElementById('pronext').style.display="none";
 			document.getElementById('propre').style.display="none";
+			document.getElementById('propre').className="fre"; 
+			document.getElementById('pronext').className="fre"; 
 			document.getElementById('pback').src = "../assets/imgs/memback.png";
 			document.getElementById('pback').className="fre"; 
 			document.getElementById('pback').style.display="none";
@@ -244,8 +264,9 @@ function handleProResult(result){
 			document.getElementById('line').style.display="none";
 			$(".me").css("display","none");
 		}else{
-			if(hasTuwen()){
+			if(isTuwen()){
 			   document.getElementById('protuwen').style.display="none";
+			   document.getElementById('protuwen').className="fre";
 			   $(".me").css("display","block");
 			   
 			   setRimg();
@@ -254,8 +275,10 @@ function handleProResult(result){
 			   document.getElementById('img1').style.display="none";
 			   document.getElementById('img2').style.display="block";
 			   document.getElementById('pronext').style.display = "block";
+			   document.getElementById('pronext').className="fre active";
 			   document.getElementById('line').style.display="block"; 
 			   document.getElementById('pback').style.display = "block";
+			   return;
 			}
 			//获得图片步数  
 			stepcount = steps[0];
@@ -301,6 +324,7 @@ function handleProResult(result){
 				document.getElementById('img1').style.display="none";
 				document.getElementById('img2').style.display="block";
 				document.getElementById('pronext').style.display = "block";
+				document.getElementById('pronext').className="fre active";
 				document.getElementById('line').style.display="block"; 
 			}
 		}

@@ -324,11 +324,17 @@ function handleProResult(result){
         if(iptvKeyMap.selectedIndex >= productResult.length-1 ) iptvKeyMap.selectedIndex = productResult.length-1;
         updateSelectProductMenu(iptvKeyMap.selectedIndex);
       }else if(currentKeyCode == 3){
-		  if(isBack()){return;}
-		 // document.getElementById('newsxuanze0').style.display="block"; 
-		  if(iptvKeyMap.selectedIndex == 0){
-		    document.getElementById('video0').className="fre";
+		  if(isBack()){
+			  document.getElementById('back').src = "../assets/imgs/huodongback.png";
+			  document.getElementById('back').className = "fre";
 		  }
+		 // document.getElementById('newsxuanze0').style.display="block"; 
+		 if(hasVideo0()){
+		   document.getElementById('video0').className="fre";
+			iptvKeyMap.selectedIndex=0;
+			document.getElementById('fre'+iptvKeyMap.selectedIndex).className = "fre active";
+			updateSelectProductMenu(iptvKeyMap.selectedIndex);
+		 }
         if(isNext() && currentStep > 1){
           document.getElementById('propre').style.display="block";
           document.getElementById('propre').className="fre active";
@@ -349,9 +355,10 @@ function handleProResult(result){
           updateSelectProductMenu(iptvKeyMap.selectedIndex);
         }
       }else if(currentKeyCode == 4){
-		  if(iptvKeyMap.selectedIndex == 0){
+		  if(hasVideo0()){
 		    document.getElementById('video0').className="fre v-active";
 			document.getElementById('newsxuanze0').style.display="none";
+			return;
 		  }
         if(!(hasNext()||hasLast() || hasTuwen())) return;
 		if(hasTuwen()){
@@ -466,6 +473,7 @@ function handleProResult(result){
 		}else{
 			contentId = iptvKeyMap.selectedIndex;
           document.getElementById('fre'+iptvKeyMap.selectedIndex).className = "fre active";
+		  document.getElementById('back').style.display = "none";
 		  //左边第一个菜单
           if(iptvKeyMap.selectedIndex == 0){ 
             document.getElementById('img1').style.display="none";
@@ -529,7 +537,7 @@ function handleProResult(result){
     if(currentKeyCode == 0){
 		
         if(historyPath == "productlist.html"){
-			relocation('productlist.html?selectIndex=1');
+			relocation('productlist.html?selectIndex=3');
 		}else{
 			relocation('index.html?selectIndex=10');
 		}
@@ -662,6 +670,9 @@ function handleProResult(result){
   }
   function hasBack(){
     return document.getElementById('back').style.display!="none";
+  }
+  function hasVideo0(){
+    return document.getElementById('video0').style.display!="none";
   }
   function updateSelectProductMenu(index){
 	document.getElementById('fre'+index).className="fre active";
