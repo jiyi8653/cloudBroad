@@ -155,13 +155,15 @@
 		  else if(iptvKeyMap.index_Keycode == 6){
 			var li= getLi2();
 			var pagey = li.getAttribute("data");
-			relocation('product'+pagey+'.html?page='+pagey);
+			relocation('product'+pagey+'.html?page='+pagey+'&historyPath='+historyPath);
 		  }
 		  //向右
 		  else if(iptvKeyMap.index_Keycode == 7){
 		    lun.butR(arr,oli);
 		  }
-	  }
+	  }else if(this.currentKeyCode == 0){
+        relocation('index.html?selectIndex=1');
+      }
   }
 
 

@@ -177,6 +177,7 @@ function handleProResult(result){
 		  document.getElementById('propre').style.display="none";
 		  document.getElementById('propre').className="fre";
       }else if(currentKeyCode == 5){
+		  if(isNext()){return;}
 		if(iptvKeyMap.index_Keycode == 0 && menuFlag[0]){
 		  relocation('index.html');
 		}else if(iptvKeyMap.index_Keycode == 1 && menuFlag[1]){

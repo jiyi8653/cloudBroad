@@ -78,7 +78,7 @@ window.onload = function(){
 		  	setActive(-2, 9); 
 		    updateRightContentStyle(iptvKeyMap.index_Keycode);
 		}else if(iptvKeyMap.index_Keycode==8 || iptvKeyMap.index_Keycode==9){
-		  	setActive(-3, 9); 
+		  	setActive(-2, 9); 
 		    updateRightContentStyle(iptvKeyMap.index_Keycode);
 		}else{
 			document.getElementById('xuanze').style.display="block";
@@ -91,10 +91,10 @@ window.onload = function(){
 			 return;
 		  }
 		if(iptvKeyMap.index_Keycode==5){
-			setActive(2, 7); 
+			setActive(2, 8); 
 		    updateRightContentStyle(iptvKeyMap.index_Keycode);
 		}else if(iptvKeyMap.index_Keycode==6){
-			setActive(1, 7); 
+			setActive(2, 8); 
 		    updateRightContentStyle(iptvKeyMap.index_Keycode);
 		}else{
 			setActive(1, 4);
@@ -118,6 +118,10 @@ window.onload = function(){
 			  updateRightContentStyle(iptvKeyMap.index_Keycode);
 		  }
       }else if(currentKeyCode == 4){
+		  if(iptvKeyMap.index_Keycode==6){
+			  document.getElementById('fre'+iptvKeyMap.index_Keycode).className="fre video v-active";
+			  return; 
+		  }	
 		  document.getElementById('xuanze').style.display="none";
 		  if(iptvKeyMap.index_Keycode >=8){
 			  document.getElementById('fre'+iptvKeyMap.index_Keycode).className="fre video v-active";
@@ -163,7 +167,7 @@ window.onload = function(){
     	if(historyPath=="productlist.html"){
     	  relocation('productlist.html?selectIndex=4');	
     	}else{
-          relocation('index.html?selectIndex=4');
+          relocation('index.html?selectIndex=1');
     	}
     }
   }

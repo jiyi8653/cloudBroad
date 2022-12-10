@@ -239,6 +239,7 @@ function handleProResult(result){
 			  }
           }
       }else if(currentKeyCode == 5){
+		  if(isNext()){return;}
 		if(isBack()){
 			setMenuFlagFalse();
 			resetNewsActive();
@@ -255,6 +256,7 @@ function handleProResult(result){
 			document.getElementById('protuwen').src = "../assets/imgs/memhuodong-selected.png";
 			document.getElementById('protuwen').className="fre active";
 			document.getElementById('img1').src= productResult.name;
+			document.getElementById('img1').style.display="block";
 			document.getElementById('img1').style="top:0px;left:0px;";
 			document.getElementById('img2').style.display="none";
 			document.getElementById('line').style.display="none";

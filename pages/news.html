@@ -120,108 +120,18 @@ var newsResult=[
             "pageNum": 1,
             "image": ["../assets/imgs/zixun/zx4-1.jpg","../assets/imgs/zixun/zx4-2.jpg","../assets/imgs/zixun/zx4-3.jpg","../assets/imgs/zixun/zx4-4.jpg"],
             "videoUrl": null
-        },
-        {
-            "id": 5,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/zx5-1.png","../assets/imgs/zixun/zx5-2.png","../assets/imgs/zixun/zx5-3.png","../assets/imgs/zixun/zx5-4.png"],
-            "videoUrl": null
-        },
-        {
-            "id": 6,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
-            "videoUrl": null
-        },
-        {
-            "id": 7,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
-            "videoUrl": null
-        },
-        {
-            "id": 8,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
-            "videoUrl": null
-        },
-        {
-            "id": 9,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
-            "videoUrl": null
-        },
-        {
-            "id": 10,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
-            "videoUrl": null
-        },
-        {
-            "id": 11,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
-            "videoUrl": null
-        },
-        {
-            "id": 12,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
-            "videoUrl": null
-        },
-        {
-            "id": 13,
-            "cateId": 0,
-            "name": "../assets/imgs/news4.png",
-            "typeId": 0,
-            "desc": null,
-            "pageNum": 1,
-            "image": ["../assets/imgs/zixun/4-1.png","../assets/imgs/zixun/4-2.png","../assets/imgs/zixun/4-3.png","../assets/imgs/zixun/4-4.png"],
-            "videoUrl": null
         }
     ];
 
   window.onload = function () {
-    iptvKeyMap.index_news = 1;
+    iptvKeyMap.index_news = 0;
     iptvKeyMap.index_Keycode = 1;
     resetNewsActive();
     // setActive(0, 4);
     document.getElementById('next').style.display="none";
     document.getElementById('pre').style.display="block";
-	document.getElementById('xuanze').style.display="none";
-    document.getElementById('newsxuanze').style.display="block";
+	document.getElementById('xuanze').style.display="block";
+    document.getElementById('newsxuanze').style.display="none";
 	
 	historyPath = getQueryVariable("historyPath");
 	
@@ -249,7 +159,7 @@ var newsResult=[
 		  var obj = result[i];
 		  if(i<=3){
 			if(i==0){
-			   temp+='<img class="fre active" src="'+obj.desc+'" id="img'+(i+1)+'" style="top:23px;left:'+(360+216*i)+'px"/>'	
+			   temp+='<img class="fre" src="'+obj.desc+'" id="img'+(i+1)+'" style="top:23px;left:'+(360+216*i)+'px"/>'	
 			}else{
 			   temp+='<img class="fre" src="'+obj.name+'" id="img'+(i+1)+'" style="top:23px;left:'+(360+216*i)+'px"/>'
 			}  
@@ -260,7 +170,7 @@ var newsResult=[
 	  }
 	  document.getElementById("leftcontent").innerHTML = temp;
 	  //默认显示第一个资讯
-	  showContent(iptvKeyMap.index_news);
+	  showContent(1,"init");
   }
   
   
@@ -516,16 +426,17 @@ var newsResult=[
 
     }else if(this.currentKeyCode == 5){
       if(iptvKeyMap.index_news == 0){
+		  var historyPath="news.html";  
         if(iptvKeyMap.index_Keycode == 0){
-          relocation('index.html');
+          relocation('index.html?historyPath='+historyPath);
         }else if(iptvKeyMap.index_Keycode == 1){
-          relocation('news.html');
+          relocation('news.html?historyPath='+historyPath);
         }else if(iptvKeyMap.index_Keycode == 2){
-          relocation('productlist.html');
+          relocation('productlist.html?historyPath='+historyPath);
         }else if(iptvKeyMap.index_Keycode == 3){
-          relocation('activity.html');
+          relocation('activity.html?historyPath='+historyPath);
         }else if(iptvKeyMap.index_Keycode == 4){
-          relocation('member.html');
+          relocation('member.html?historyPath='+historyPath);
         }
       }
 	  /* else if(isNext()){
@@ -579,7 +490,7 @@ var newsResult=[
 	  if(historyPath=="productlist.html"){
 		 relocation('productlist.html?selectIndex=2');  
 	  }else{
-         relocation('index.html?selectIndex=2');
+         relocation('index.html?selectIndex=1');
 	  }
     }
     }catch(e){
@@ -623,7 +534,7 @@ function setImgClass(){
 	  }
   }
 
-  function showContent(newsId){
+  function showContent(newsId,init){
     currentStep = 1;
 	setImgSrc();
 	var obj = newsResult[newsId-1];
@@ -631,7 +542,11 @@ function setImgClass(){
 	if(obj.desc){
 		document.getElementById('img'+newsId).src=obj.desc;
 	}
-	document.getElementById('img'+newsId).className="fre active";
+	if(init =="init"){
+		document.getElementById('img'+newsId).className="fre";
+	}else{
+	   document.getElementById('img'+newsId).className="fre active";
+	}
 	document.getElementById('next').style.top="165px";
 	document.getElementById('pre').style.top="165px";
 	 if(obj.typeId==0){ //图片
