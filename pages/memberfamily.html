@@ -294,7 +294,7 @@ function handleProResult(result){
 		document.getElementById('img2').style.top= "133px";
   	  }else if(currentStep > 1){
   	     //显示上一页内容
-		 document.getElementById('img2').style.top= position[currentStep] +"px";
+		 document.getElementById('img2').style.top= position[currentStep-1] +"px";
   	  }
   	  if(ntop<165){
   	  	ntop = 165 + currentStep * 15; 
