@@ -39,8 +39,7 @@
 </div>
 <div id="rightcontent" style="position: relative;">
 	<!-- 临时图片显示视频位置 -->
-	<img src="../assets/imgs/zhibo.jpg" id="fre5" class="fre" style="width: 543px;height: 350px;left: 385px;top:60px;">
-    <div class="video" style="width: 543px;height: 350px;left: 385px;top:60px;display: none;"></div>
+	<!-- <img src="../assets/imgs/zhibo.jpg" id="fre5" class="fre" style="width: 543px;height: 350px;left: 385px;top:60px;"> -->
  	<img id="fre6" src="../assets/imgs/tianyi.jpg" class="fre" style="width: 260px;height: 350px;left: 950px;top:60px;">
 	<img id="fre7" src="../assets/imgs/youxi.jpg" class="fre" style="width: 260px;height: 230px;left: 385px;top:435px;">
 	<img id="fre8" src="../assets/imgs/zhijia.jpg" class="fre" style="width: 260px;height: 230px;left: 670px;top:435px;">
@@ -53,6 +52,7 @@
 <img src="../assets/resources/imgs/vmute.png" class="fre complayer sound-bar" id="mute-bar" style="left:20px;top:140px;display: none;z-index:1000;" />
 <img src="../assets/resources/imgs/v0.png" class="fre complayer sound-bar" id="volume-bar" style="left:20px;top:400px;display: none;z-index:1000;" />
 
+<div id="fre5" class="fre" style="width: 543px;height: 350px;left: 385px;top:60px;" data="rtsp://10.192.78.200/88888888/16/20220908/268958780/268958780.mpg"></div>
 
 <!--测试-->
 <div id="mytest-bar" style="width: 100px;height:100px;border:1px solid red;position: absolute;top: 10px;left: 10px;display: none;">
@@ -66,7 +66,7 @@
     iptvKeyMap.index_list = 0;
     setActive(0,9);
 	//left, top, width, height
-    WindowPlayer.initParam(385,60, 543, 350);
+    WindowPlayer.initParam(390,60, 543, 350);
 	//获得视频链接
 	WindowPlayer.setSingleUrl(document.getElementById('fre5').getAttribute('data'));
 	selectedM = getQueryVariable("selectIndex");
@@ -84,7 +84,6 @@
     WindowPlayer.playFromStart();
     getDefaultPlatform();
 
-    
     // document.getElementById('mytest-bar').innerHTML = MyCookie.get('_platform');
   };
 

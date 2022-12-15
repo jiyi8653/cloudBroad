@@ -58,10 +58,10 @@
   <img src="../assets/resources/imgs/v0.png" class="fre complayer sound-bar" id="volume-bar" style="left:250px;top: 400px;display: none;" />
 
   <!-- 临时图片显示视频位置 -->
-  	<img src="../assets/imgs/zhibo.jpg" class="fre" id="video0" style="width: 821px;height: 595px;left: 385px;top:60px;">
-  	<img src="../assets/imgs/zhibo.jpg" class="fre" id="video1" style="width: 821px;height: 480px;left: 385px;top:60px;display: none;">
-  	<img src="../assets/imgs/zhijia.jpg" class="fre" id="video2" style="width: 821px;height: 480px;left: 385px;top:60px;display: none;">
-  
+  <div class="fre" id="video0" style="width: 821px;height: 595px;left: 385px;top:60px;display: none;" data="rtsp://10.192.78.200/88888888/16/20220908/268958780/268958780.mpg"></div>
+  <div class="fre" id="video1" style="width: 821px;height: 480px;left: 385px;top:60px;display: none;" data="rtsp://10.192.78.200/88888888/16/20220908/268958780/268958780.mpg"></div>
+  <div class="fre" id="video2" style="width: 821px;height: 480px;left: 385px;top:60px;display: none;" data="rtsp://10.192.78.200/88888888/16/20220908/268958780/268958780.mpg"></div>
+    
   <!-- 
     <div class="video" id="video0" data="rtsp://10.192.78.200/88888888/16/20220908/268958792/268958792.mpg" style="width: 821px;height: 595px;left: 385px;top:60px;"></div>
     <div class="video" id="video1" data="rtsp://10.192.78.200/88888888/16/20220908/268958792/268958792.mpg" style="width: 821px;height: 480px;left: 385px;top:60px;"></div>
@@ -88,6 +88,31 @@
 
   var currentpage=1;
   var descFlag = false;  //使用说明flag,默认没有点击查看图文
+
+  var selectedM = 0;
+  function playVideo(id) {
+    iptvKeyMap.index_Keycode = 0;
+    iptvKeyMap.index_list = 0;
+    //setActive(0,9);
+	//left, top, width, height
+    WindowPlayer.initParam(385,60, 821, 480);
+	//获得视频链接
+	WindowPlayer.setSingleUrl(document.getElementById(id).getAttribute('data'));
+	selectedM = getQueryVariable("selectIndex");
+	if(selectedM>0){
+		var currentM = selectedM-1;
+		iptvKeyMap.index_Keycode = currentM
+		if(currentM<=4){
+			updateLeftMenuStyle(currentM);
+		}else{
+		    updateRightContentStyle(currentM);	
+		}
+	}
+	//TODO
+    WindowPlayer.playFromStart();
+    getDefaultPlatform();
+    // document.getElementById('mytest-bar').innerHTML = MyCookie.get('_platform');
+  };
 
 var productResult=[
         {
@@ -152,6 +177,7 @@ window.onload = function(){
   getInitData();
   resetNewsActive();
   hideAll();
+  playVideo("video"+iptvKeyMap.selectedIndex);
   
   document.getElementById('pronext').style.display="none";
   document.getElementById('propre').style.display="none";
@@ -390,6 +416,7 @@ function handleProResult(result){
 		  document.getElementById('back').style.display = "none";
 		  //左边第一个菜单
           if(iptvKeyMap.selectedIndex == 0){ 
+            playVideo("video"+iptvKeyMap.selectedIndex);
             document.getElementById('img1').style.display="none";
             document.getElementById('pronext').style.display="none";
             document.getElementById('propre').style.display="none";
@@ -399,7 +426,7 @@ function handleProResult(result){
             // playProductVideo(document.getElementById('video'+iptvKeyMap.selectedIndex).getAttribute('data'),iptvKeyMap.selectedIndex);
           }//左边第二个，第三个菜单，产品介绍 / 使用说明
 		  else if((iptvKeyMap.selectedIndex ==1 || iptvKeyMap.selectedIndex ==2)){ 
-			WindowPlayer.destory();
+        playVideo("video"+iptvKeyMap.selectedIndex);
 			//隐藏上一页，下一页，右侧内容区域
 			document.getElementById('pronext').style.display="none";
 			document.getElementById('propre').style.display="none";

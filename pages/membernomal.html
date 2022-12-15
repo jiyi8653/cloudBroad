@@ -137,7 +137,7 @@ function handleProResult(result){
 
   function action(){
       if(currentKeyCode == 1){
-		  if(isBack()){return;}
+		  if(isBack()  || isTuwen()){return;}
 		 if(isNext()){
 			 currentStep = currentStep - 1;
 			 if(currentStep < 1) currentStep = 1;
@@ -156,7 +156,7 @@ function handleProResult(result){
 		 } 
 		 
       }else if(currentKeyCode == 2){
-		  if(isBack()){return;}
+		  if(isBack() || isTuwen()){return;}
 		 if(isNext()){
 			currentStep += 1;
 			if(currentStep > stepcount) currentStep = stepcount;
@@ -173,6 +173,7 @@ function handleProResult(result){
 		    updateLeftMenuStyle(iptvKeyMap.index_Keycode);
 		 } 
       }else if(currentKeyCode == 3){
+		  if(isBack2() && hasLast()){return;}
 		  if(isBack()){
 			document.getElementById('pback').src = "../assets/imgs/memback.png";
 			document.getElementById('pback').className="fre"; 
@@ -434,6 +435,9 @@ function handleProResult(result){
   
   function isBack(){
     return document.getElementById('pback').className=="fre active";
+  }
+  function isBack2(){
+    return document.getElementById('pback').className=="fre";
   }
   function hasBack(){
     return document.getElementById('pback').style.display!="none";
